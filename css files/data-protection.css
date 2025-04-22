@@ -221,7 +221,7 @@ button:disabled {
     font-family: Arial, sans-serif;
 }
 
-/* Navbar Styles */
+
 .navbar {
     display: flex;
     justify-content: space-between;
@@ -229,6 +229,7 @@ button:disabled {
     padding: 15px 30px;
     background-color: black;
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    list-style-type: none;
 }
 
 /* Logo */
@@ -238,7 +239,7 @@ button:disabled {
 
 /* Navigation Links Container */
 .nav-links {
-    list-style: none;
+    list-style-type: none;
     display: flex;
     align-items: center;
     gap: 20px;
@@ -285,13 +286,13 @@ button:disabled {
 .dropdown-menu {
     display: none;
     position: absolute;
-    list-style-type: none;
     top: 100%;
     left: 0;
     min-width: 150px;
     background-color: white;
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
     z-index: 1000;
+    list-style-type: none;
 }
 
 .dropdown-menu li {
@@ -495,8 +496,8 @@ button:disabled {
 /* Profile Dropdown Menu */
 .profile-dropdown-menu {
     display: none;
-    position: absolute;
     list-style-type: none;
+    position: absolute;
     top: 100%;
     right: 0;
     min-width: 220px;
@@ -557,4 +558,133 @@ button:disabled {
 .icons a:hover, .profile-dropdown:hover .icon-img {
     background: rgba(244, 2, 2, 0.1);
     border-radius: 50%;
+}
+
+
+
+/* Added code for mobile function */
+/* Hide desktop navbar on mobile */
+@media (max-width: 768px) {
+    .nav-links, .icons {
+        display: none;
+    }
+
+    .navbar {
+        padding: 15px;
+    }
+
+    /* Menu button */
+    .menu-btn {
+        display: block;
+        background: none;
+        border: none;
+        font-size: 28px;
+        color: white;
+        cursor: pointer;
+    }
+
+    /* Full-screen mobile menu */
+    .mobile-menu {
+        display: none;
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: linear-gradient(to bottom, #000000, #1a1a1a);
+        z-index: 1000;
+        padding-top: 60px;
+        text-align: center;
+        overflow-y: auto;
+        opacity: 0;
+        transform: translateY(-100%);
+        transition: transform 0.8s cubic-bezier(0.19, 1, 0.22, 1), opacity 0.8s ease-in-out; /* Slower dropdown */
+    }
+
+    .mobile-menu.active {
+        display: block;
+        transform: translateY(0);
+        opacity: 1;
+    }
+
+    .mobile-menu ul {
+        list-style: none;
+        padding: 0;
+        margin: 0;
+    }
+
+    .mobile-menu li {
+        padding: 15px;
+        font-size: 14px;
+        font-weight: bold;
+        text-transform: uppercase;
+        transition: transform 0.2s ease-in-out, background 0.3s ease;
+    }
+
+    .mobile-menu a {
+        color: white;
+        text-decoration: none;
+        display: block;
+        width: 100%;
+        padding: 15px;
+        transition: background 0.3s ease, transform 0.2s ease;
+    }
+
+    /* Fix "All Vehicles" button design */
+    .mobile-menu .all-vehicles {
+        background: none; /* Remove red background */
+        color: white; /* Match other buttons */
+    }
+
+    /* Hover effect */
+    .mobile-menu a:hover {
+        background: rgba(255, 0, 0, 0.3);
+        transform: scale(1.05);
+    }
+
+    /* Click (Press) Effect */
+    .mobile-menu a:active {
+        background: rgba(255, 0, 0, 0.5);
+        transform: scale(0.95) rotate(-1deg);
+        transition: transform 0.1s ease, background 0.2s ease;
+    }
+
+    /* Menu Header (Logo + Slogan) */
+    .menu-header {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 20px;
+        border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+    }
+
+    .menu-logo {
+        width: 90px;
+        height: auto;
+        margin-right: 10px;
+    }
+
+    .menu-slogan {
+        color: white;
+        font-size: 13px;
+        font-weight: bold;
+        text-transform: uppercase;
+    }
+
+    /* Close button */
+    .close-menu {
+        position: absolute;
+        top: 20px;
+        right: 30px;
+        font-size: 24px;
+        cursor: pointer;
+        color: white;
+    }
+}
+
+/* Hide mobile menu on desktop */
+@media (min-width: 769px) {
+    .menu-btn, .mobile-menu {
+        display: none !important;
+    }
 }

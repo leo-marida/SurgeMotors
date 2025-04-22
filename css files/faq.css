@@ -16,7 +16,6 @@ body {
     font-family: Arial, sans-serif;
 }
 
-/* Navbar Styles */
 
 .navbar {
     display: flex;
@@ -482,43 +481,6 @@ body {
 @media (min-width: 769px) {
     .menu-btn, .mobile-menu {
         display: none !important;
-    }
-}
-
-/* Mobile-specific adjustments */
-@media (max-width: 768px) {
-    /* Adjust height for mobile */
-    .new-slideshow-container {
-        height: 70vh; /* Reduce height for mobile */
-    }
-
-    /* Adjust width and fit for mobile */
-    .slideshow-video {
-        width: 100%;
-        height: 100%;
-        object-fit: contain; /* Ensures video is fully visible */
-    }
-
-    /* Navigation buttons for mobile */
-    .new-slideshow-container button {
-        font-size: 15px; /* Larger buttons for easier clicking */
-        padding: 16px 25px; /* Increase button size */
-    }
-
-    /* Position buttons for mobile (more centered) */
-    .new-slideshow-container .prev {
-        left: 20px;
-         /* Adjust button position for mobile */
-    }
-
-    .new-slideshow-container .next {
-        right: 20px; /* Adjust button position for mobile */
-    }
-
-    /* Adjust mute/unmute button size and position */
-    .new-slideshow-container .mute-btn {
-        font-size: 15px; /* Larger button for mobile */
-        padding: 10px; /* Bigger clickable area */
     }
 }
 

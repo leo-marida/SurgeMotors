@@ -10,30 +10,6 @@ body {
     color: white;
 }
 
-/* Navigation Bar */
-.navbar {
-    display: flex;
-    align-items: center;
-    background: black;
-    padding: 15px 30px;
-    justify-content: space-between;
-}
-
-.logo img {
-    height: 50px;
-}
-
-.nav-link {
-    color: white;
-    text-decoration: none;
-    font-size: 18px;
-    margin: 0 15px;
-}
-
-.nav-link.active {
-    color: red;
-    font-weight: bold;
-}
 
 /* Form Container */
 .form-container {
@@ -78,6 +54,27 @@ button:hover {
     color: red;
     text-align: center;
 }
+
+/* -------- Responsive Styling -------- */
+@media (max-width: 768px) {
+    .form-container {
+        width: 90%;
+        padding: 20px;
+    }
+
+    button {
+        font-size: 14px;
+        padding: 10px;
+    }
+
+    #rental-cost {
+        font-size: 18px;
+    }
+}
+
+
+
+
 
 .footer {
     background-color: #111; /* Black background */
