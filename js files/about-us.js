@@ -1,5 +1,13 @@
 document.addEventListener("DOMContentLoaded", function () {
     
+    document.getElementById('signOutBtn')?.addEventListener('click', function () {
+        localStorage.removeItem('username');
+    
+        // Optionally clear all localStorage (if you're storing more session stuff):
+        // localStorage.clear();
+    
+        window.location.href = 'index.html';
+    });
     
     const teamMembers = [
         { name: "Leonard Marida", position: "CEO", image: "../images/picture.jpg" },

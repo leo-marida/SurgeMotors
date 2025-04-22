@@ -47,4 +47,11 @@ document.addEventListener('DOMContentLoaded', function () {
 
   renderCars();
   updateEmptyState();
+
+  document.getElementById('signOutBtn')?.addEventListener('click', function () {
+    localStorage.removeItem('username');
+    localStorage.clear();
+
+    window.location.href = 'index.html';
+});
 });
