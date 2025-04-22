@@ -1,4 +1,15 @@
 document.addEventListener("DOMContentLoaded", function () {
+
+
+
+    document.getElementById('signOutBtn')?.addEventListener('click', function () {
+        localStorage.removeItem('username');
+        localStorage.clear();
+
+        window.location.href = 'index.html';
+    });
+
+
     const username = localStorage.getItem('username');
     if (username) {
         document.getElementById('userName').innerText = `Welcome, ${username}`;

@@ -1,6 +1,14 @@
 document.addEventListener("DOMContentLoaded", function () {
 
-    
+
+
+    document.getElementById('signOutBtn')?.addEventListener('click', function () {
+        localStorage.removeItem('username');
+        localStorage.clear();
+
+        window.location.href = 'index.html';
+    });
+
     const form = document.getElementById("sell-car-form");
     const imageInput = document.getElementById("images");
     const imagePreview = document.getElementById("image-preview");

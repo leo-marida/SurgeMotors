@@ -1,7 +1,15 @@
 document.addEventListener('DOMContentLoaded', () => {
     // Extract car price from URL
 
+
+    document.getElementById('signOutBtn')?.addEventListener('click', function () {
+        localStorage.removeItem('username');
+        localStorage.clear();
     
+        window.location.href = 'index.html';
+    });
+    
+
     const urlParams = new URLSearchParams(window.location.search);
     const carName = urlParams.get('carName');
     const carYear = urlParams.get('carYear');

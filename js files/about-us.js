@@ -2,9 +2,7 @@ document.addEventListener("DOMContentLoaded", function () {
     
     document.getElementById('signOutBtn')?.addEventListener('click', function () {
         localStorage.removeItem('username');
-    
-        // Optionally clear all localStorage (if you're storing more session stuff):
-        // localStorage.clear();
+        localStorage.clear();
     
         window.location.href = 'index.html';
     });

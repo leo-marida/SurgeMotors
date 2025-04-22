@@ -1,5 +1,11 @@
-document.addEventListener('DOMContentLoaded', function () {
+window.addEventListener('DOMContentLoaded', () => {
 
+  document.getElementById('signOutBtn')?.addEventListener('click', function () {
+      localStorage.removeItem('username');
+      localStorage.clear();
+  
+      window.location.href = 'index.html';
+  });
 });
 
 

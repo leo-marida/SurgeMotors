@@ -13,6 +13,13 @@ window.addEventListener('DOMContentLoaded', () => {
 
     // Also update the total cost display
     document.getElementById('total-cost').textContent = price || 'N/A';
+
+    document.getElementById('signOutBtn')?.addEventListener('click', function () {
+        localStorage.removeItem('username');
+        localStorage.clear();
+    
+        window.location.href = 'index.html';
+    });
 });
 
 
