@@ -411,6 +411,149 @@ CREATE TABLE contact_messages (
     message TEXT NOT NULL,
     submitted_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
+
+The following section outlines each table.
+---
+
+### **1. Users Table**
+Stores information about registered users.
+
+| Column      | Type            | Details                          |
+|-------------|-----------------|----------------------------------|
+| `id`        | INT             | Primary Key, Auto-increment     |
+| `username`  | VARCHAR(50)     | Unique, Not Null                |
+| `email`     | VARCHAR(100)    | Unique, Not Null                |
+| `password`  | VARCHAR(255)    | Not Null                        |
+| `created_at`| TIMESTAMP       | Default: current timestamp      |
+
+---
+
+### **2. Cars Table**
+Stores car listings.
+
+| Column         | Type            | Details                                   |
+|----------------|-----------------|------------------------------------------|
+| `id`           | INT             | Primary Key, Auto-increment              |
+| `brand_id`     | INT             | Foreign Key → `brands.id`                |
+| `model`        | VARCHAR(100)    |                                          |
+| `year`         | YEAR            |                                          |
+| `price`        | DECIMAL(10, 2)  |                                          |
+| `mileage`      | INT             |                                          |
+| `color`        | VARCHAR(50)     |                                          |
+| `transmission` | VARCHAR(50)     |                                          |
+| `fuel_type`    | VARCHAR(50)     |                                          |
+| `image_url`    | TEXT            |                                          |
+| `description`  | TEXT            |                                          |
+| `status`       | ENUM            | 'available', 'sold', 'featured'          |
+| `created_at`   | TIMESTAMP       | Default: current timestamp               |
+
+---
+
+### **3. Bookmarked Cars Table**
+Tracks which users bookmarked which cars.
+
+| Column      | Type            | Details                          |
+|-------------|-----------------|----------------------------------|
+| `id`        | INT             | Primary Key, Auto-increment     |
+| `user_id`   | INT             | Foreign Key → `users.id`        |
+| `car_id`    | INT             | Foreign Key → `cars.id`         |
+| `created_at`| TIMESTAMP       | Default: current timestamp      |
+
+---
+
+### **4. Featured Cars Table**
+Lists cars marked as featured.
+
+| Column       | Type            | Details                          |
+|--------------|-----------------|----------------------------------|
+| `id`         | INT             | Primary Key, Auto-increment     |
+| `car_id`     | INT             | Foreign Key → `cars.id`         |
+| `featured_at`| TIMESTAMP       | Default: current timestamp      |
+
+---
+
+### **5. Sold Cars Table**
+Tracks car sales.
+
+| Column           | Type            | Details                          |
+|------------------|-----------------|----------------------------------|
+| `id`             | INT             | Primary Key, Auto-increment     |
+| `car_id`         | INT             | Foreign Key → `cars.id`         |
+| `sold_to_user_id`| INT             | Foreign Key → `users.id`        |
+| `sold_at`        | TIMESTAMP       | Default: current timestamp      |
+
+---
+
+### **6. Brands Table**
+Stores car brands.
+
+| Column      | Type            | Details                          |
+|-------------|-----------------|----------------------------------|
+| `id`        | INT             | Primary Key, Auto-increment     |
+| `name`      | VARCHAR(100)    | Unique, Not Null                |
+
+---
+
+### **7. News Updates Table**
+Stores news and updates.
+
+| Column      | Type            | Constraints                     |
+|-------------|-----------------|----------------------------------|
+| `id`        | INT             | PRIMARY KEY, AUTO_INCREMENT     |
+| `title`     | VARCHAR(255)    | NOT NULL                        |
+| `content`   | TEXT            | NOT NULL                        |
+| `posted_at` | TIMESTAMP       | DEFAULT CURRENT_TIMESTAMP       |
+
+---
+
+### **8. New Arrivals Table**
+Tracks newly added cars.
+
+| Column      | Type            | Constraints                     |
+|-------------|-----------------|----------------------------------|
+| `id`        | INT             | PRIMARY KEY, AUTO_INCREMENT     |
+| `car_id`    | INT             | NOT NULL                        |
+| `arrived_at`| TIMESTAMP       | DEFAULT CURRENT_TIMESTAMP       |
+
+---
+
+### **9. Reviews Table**
+Stores user reviews for cars.
+
+| Column       | Type            | Constraints                     |
+|--------------|-----------------|----------------------------------|
+| `id`         | INT             | PRIMARY KEY, AUTO_INCREMENT     |
+| `user_id`    | INT             | NOT NULL                        |
+| `rating`     | INT             | CHECK (rating BETWEEN 1 AND 5)  |
+| `comment`    | TEXT            | NOT NULL                        |
+| `reviewed_at`| TIMESTAMP       | DEFAULT CURRENT_TIMESTAMP       |
+
+---
+
+### **10. Partners Table**
+Stores information about partner companies.
+
+| Column       | Type            | Constraints                     |
+|--------------|-----------------|----------------------------------|
+| `id`         | INT             | PRIMARY KEY, AUTO_INCREMENT     |
+| `name`       | VARCHAR(255)    | NOT NULL                        |
+| `website_url`| VARCHAR(255)    | NOT NULL                        |
+| `logo_url`   | VARCHAR(255)    | NOT NULL                        |
+
+---
+
+### **11. Contact Messages Table**
+Stores messages submitted through the contact form.
+
+| Column       | Type            | Constraints                     |
+|--------------|-----------------|----------------------------------|
+| `id`         | INT             | PRIMARY KEY, AUTO_INCREMENT     |
+| `name`       | VARCHAR(255)    | NOT NULL                        |
+| `email`      | VARCHAR(255)    | NOT NULL                        |
+| `subject`    | VARCHAR(255)    | NOT NULL                        |
+| `message`    | TEXT            | NOT NULL                        |
+| `submitted_at`| TIMESTAMP      | DEFAULT CURRENT_TIMESTAMP       |
+
 ```
 
 ---
