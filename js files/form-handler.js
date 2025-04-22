@@ -7,7 +7,7 @@ $(document).ready(function () {
             url: '../php files/signup.php',
             data: $(this).serialize(),
             success: function (response) {
-                $('#signupResponse').html('<p>' + response + '</p>');
+                $('#signupResponse').html('<div class="form-response">' + response + '</div>');
             },
             error: function () {
                 $('#signupResponse').html('<p style="color:red;">Something went wrong. Try again.</p>');
@@ -23,7 +23,7 @@ $(document).ready(function () {
             url: '../php files/signin.php',
             data: $(this).serialize(),
             success: function (response) {
-                $('#signinResponse').html('<p>' + response + '</p>');
+                $('#signinResponse').html('<div class="form-response">' + response + '</div>');
             },
             error: function () {
                 $('#signinResponse').html('<p style="color:red;">Something went wrong. Try again.</p>');
@@ -42,7 +42,7 @@ $(document).ready(function () {
             processData: false,
             contentType: false,
             success: function (response) {
-                $('#sellCarResponse').html('<p>' + response + '</p>');
+                $('#sellCarResponse').html('<div class="form-response">' + response + '</div>');
             },
             error: function () {
                 $('#sellCarResponse').html('<p style="color:red;">Something went wrong. Try again.</p>');
@@ -58,14 +58,13 @@ $(document).ready(function () {
             url: '../php files/rent_car.php',
             data: $(this).serialize(),
             success: function (response) {
-                $('#rentCarResponse').html('<p>' + response + '</p>');
+                $('#rentCarResponse').html('<div class="form-response">' + response + '</div>');
             },
             error: function () {
                 $('#rentCarResponse').html('<p style="color:red;">Something went wrong. Try again.</p>');
             }
         });
     });
-
 
     // ========== Contact Us ==========
     $('#contact-form').on('submit', function (e) {
@@ -75,7 +74,7 @@ $(document).ready(function () {
             url: '../php files/contact.php',
             data: $(this).serialize(),
             success: function (response) {
-                $('#contactResponse').html('<p>' + response + '</p>');
+                $('#contactResponse').html('<div class="form-response">' + response + '</div>');
             },
             error: function () {
                 $('#contactResponse').html('<p style="color:red;">Something went wrong. Try again.</p>');
@@ -94,7 +93,7 @@ $(document).ready(function () {
             processData: false,
             contentType: false,
             success: function (response) {
-                $('#checkoutResponse').html('<p>' + response + '</p>');
+                $('#checkoutResponse').html('<div class="form-response">' + response + '</div>');
             },
             error: function () {
                 $('#checkoutResponse').html('<p style="color:red;">Something went wrong. Try again.</p>');
@@ -108,15 +107,15 @@ $(document).ready(function () {
         $(this).prevAll().addBack().addClass("selected");
     });
 
+    // ========== Test Drive Booking ==========
     $('#testDriveForm').on('submit', function (e) {
-        e.preventDefault(); // Prevent default form submission
-    
+        e.preventDefault();
         $.ajax({
             type: 'POST',
             url: '../php files/book_test_drive.php',
             data: $(this).serialize(),
             success: function (response) {
-                $('#responseMessage').html('<p>' + response + '</p>');
+                $('#responseMessage').html('<div class="form-response">' + response + '</div>');
             },
             error: function () {
                 $('#responseMessage').html('<p style="color:red;">Something went wrong. Try again.</p>');
@@ -124,5 +123,3 @@ $(document).ready(function () {
         });
     });
 });
-
-
