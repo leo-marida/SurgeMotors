@@ -38,9 +38,9 @@
                     <li><a href="viewAll.html"  class="brand-dropdown-item">View All</a></li>
                 </ul>
             </li>
-            <li><a href="../html files/sell-car.html">Sell Your Car</a></li>
+            <li><a href="sell-car.html">Sell Your Car</a></li>
             <li class="dropdown Book-dropdown">
-                <a href="../html files/Bookmark.html" class="nav-item">
+                <a href="Bookmark.html" class="nav-item">
                     Bookmark
                     <img src="../images/Bookmark.jpg" class="Book-icon" alt="Cart"> 
                 </a>
@@ -57,13 +57,34 @@
                 <ul class="profile-dropdown-menu">
                     <li class="profile-header">
                         <p>Welcome to SurgeMotors! <span class="quote">"Drive the Future!"</span></p>
-                    
-                        
                     </li>
                 </ul>
             </div>
         </div>
+
+        <button class="menu-btn" onclick="toggleMenu()">☰</button>
+
+        <div class="mobile-menu">
+            <div class="menu-header">
+                <img src="../images/MainLogo.jpg" alt="Logo" class="menu-logo">
+                <span class="menu-slogan">Drive Your Dreams, Own the Road!</span>
+            </div>
+            <span class="close-menu" onclick="toggleMenu()">×</span>
+            <ul>
+                <li><a href="viewAll.html?make=audi">Audi</a></li>
+                <li><a href="viewAll.html?make=bmw">BMW</a></li>
+                <li><a href="viewAll.html?make=mercedes">Mercedes</a></li>
+                <li><a href="viewAll.html?make=ford">Ford</a></li>
+                <li><a href="viewAll.html?make=tesla">Tesla</a></li>
+                <li><a href="viewAll.html?make=porsche">Porsche</a></li>
+                <li><a href="viewAll.html" >ALL Vehicles</a></li>
+                <li><a href="sell-car.html">Sell Your Car</a></li>
+                <li><a href="bookmark.html">Bookmark</a></li>
+                
+            </ul>
+        </div>
         
+
     </nav>
 
     <div class="form-container">
