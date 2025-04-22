@@ -543,6 +543,28 @@ h1 {
     }
   }
 
+  .button-group {
+    display: flex;
+    gap: 10px;
+    margin-top: 10px;
+}
+
+.button-group button {
+    padding: 8px 12px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.view-btn {
+    background-color: #1976d2;
+    color: white;
+}
+
+.remove-btn {
+    background-color: #d32f2f;
+    color: white;
+}
 
 
 /* Ensure the page content stretches to full height */
