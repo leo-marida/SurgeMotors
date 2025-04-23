@@ -52,8 +52,6 @@ CREATE TABLE sold_cars (
     phone VARCHAR(50),
     email VARCHAR(255),
     address TEXT,
-    id_front_path VARCHAR(255),
-    id_back_path VARCHAR(255),
     card_number_last4 VARCHAR(4),
     expiry_date VARCHAR(7),
     cvv VARCHAR(4), -- usually it's 3 digits, but we can allow a bit more
@@ -134,7 +132,6 @@ CREATE TABLE test_drive_bookings (
     model varchar(100) NOT NULL,
     booking_date DATE NOT NULL,
     booking_time TIME NOT NULL,
-    status VARCHAR(50) DEFAULT 'pending',
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
 
     FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE,
