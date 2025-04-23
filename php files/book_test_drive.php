@@ -14,10 +14,36 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     }
 
     if (!filter_var($email, FILTER_VALIDATE_EMAIL)) { echo "Invalid email."; exit; }
-    if (!preg_match('/^[0-9]{10,}$/', $phone)) { echo "Invalid phone number."; exit; }
+    if (!preg_match('/^[0-9]{10}$/', $phone)) { echo "Invalid phone number."; exit; }
 
-    $stmt = $conn->prepare("INSERT INTO test_drive_bookings (name, email, phone, date, time, car_model) VALUES (?, ?, ?, ?, ?, ?)");
-    $stmt->bind_param("ssssss", $name, $email, $phone, $date, $time, $car_model);
+    // Lookup user_id by email
+    $user_id = null;
+    $user_query = $conn->prepare("SELECT id FROM users WHERE email = ?");
+    $user_query->bind_param("s", $email);
+    $user_query->execute();
+    $user_result = $user_query->get_result();
+    if ($user_result->num_rows > 0) {
+        $user_id = $user_result->fetch_assoc()['id'];
+    }
+
+    // Lookup car_id by car model
+    $car_id = null;
+    $car_query = $conn->prepare("SELECT id FROM cars WHERE model = ?");
+    $car_query->bind_param("s", $car_model);
+    $car_query->execute();
+    $car_result = $car_query->get_result();
+    if ($car_result->num_rows > 0) {
+        $car_id = $car_result->fetch_assoc()['id'];
+    } else {
+        echo "Car not found."; exit;
+    }
+
+    $stmt = $conn->prepare("
+        INSERT INTO test_drive_bookings 
+        (user_id, car_id, booking_date, booking_time, name, email, phone) 
+        VALUES (?, ?, ?, ?, ?, ?, ?)
+    ");
+    $stmt->bind_param("iisssss", $user_id, $car_id, $date, $time, $name, $email, $phone);
 
     if ($stmt->execute()) {
         $to = "Devsquad@surgemotors.com";

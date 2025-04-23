@@ -21,7 +21,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $stmt->bind_param("ssss", $name, $email, $subject, $message);
 
     if ($stmt->execute()) {
-        $to = "Devsquad@surgemotors.com";
+        $to = "leo.marida11@gmail.com";
         $fullMessage = "From: $name\nEmail: $email\n\nMessage:\n$message";
         $headers = "From: $email";
 

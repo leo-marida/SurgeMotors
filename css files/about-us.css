@@ -132,6 +132,9 @@ footer {
 
 /* Navbar Styles */
 
+
+/* Navbar Styles */
+
 .navbar {
     display: flex;
     justify-content: space-between;
@@ -139,6 +142,7 @@ footer {
     padding: 15px 30px;
     background-color: black;
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    list-style-type: none;
 }
 
 /* Logo */
@@ -148,7 +152,7 @@ footer {
 
 /* Navigation Links Container */
 .nav-links {
-    list-style: none;
+    list-style-type: none;
     display: flex;
     align-items: center;
     gap: 20px;
@@ -201,6 +205,7 @@ footer {
     background-color: white;
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
     z-index: 1000;
+    list-style-type: none;
 }
 
 .dropdown-menu li {
@@ -600,8 +605,6 @@ footer {
 
 
 
-
-
 /* Footer Styles */
 .footer {
     background-color: #111; /* Black background */
@@ -715,4 +718,6 @@ footer {
     color: #ccc;
     font-size: 0.9rem;
   }
+
+  
   

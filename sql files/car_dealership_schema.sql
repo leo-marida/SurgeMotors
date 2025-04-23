@@ -44,15 +44,24 @@ CREATE TABLE featured_cars (
     FOREIGN KEY (car_id) REFERENCES cars(id)
 );
 
--- Sold cars table
 CREATE TABLE sold_cars (
     id INT AUTO_INCREMENT PRIMARY KEY,
     car_id INT,
     sold_to_user_id INT,
+    full_name VARCHAR(255),
+    phone VARCHAR(50),
+    email VARCHAR(255),
+    address TEXT,
+    id_front_path VARCHAR(255),
+    id_back_path VARCHAR(255),
+    card_number_last4 VARCHAR(4),
+    expiry_date VARCHAR(7),
+    cvv VARCHAR(4), -- usually it's 3 digits, but we can allow a bit more
     sold_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     FOREIGN KEY (car_id) REFERENCES cars(id),
     FOREIGN KEY (sold_to_user_id) REFERENCES users(id)
 );
+
 
 CREATE TABLE rented_cars (
     id INT AUTO_INCREMENT PRIMARY KEY,
@@ -119,6 +128,10 @@ CREATE TABLE test_drive_bookings (
     id INT AUTO_INCREMENT PRIMARY KEY,
     user_id INT NOT NULL,
     car_id INT NOT NULL,
+    name varchar(100) NOT NULL,
+    email VARCHAR(100) NOT NULL,
+    phone VARCHAR(20) NOT NULL,
+    model varchar(100) NOT NULL,
     booking_date DATE NOT NULL,
     booking_time TIME NOT NULL,
     status VARCHAR(50) DEFAULT 'pending',
@@ -127,6 +140,7 @@ CREATE TABLE test_drive_bookings (
     FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE,
     FOREIGN KEY (car_id) REFERENCES cars(id) ON DELETE CASCADE
 );
+
 
 CREATE TABLE car_sale_requests (
     id INT AUTO_INCREMENT PRIMARY KEY,

@@ -71,13 +71,13 @@ $(document).ready(function () {
         e.preventDefault();
         $.ajax({
             type: 'POST',
-            url: '../php files/contact.php',
+            url: 'http://localhost/SurgeMotors/php%20files/contact_us.php',
             data: $(this).serialize(),
             success: function (response) {
                 $('#contactResponse').html('<div class="form-response">' + response + '</div>');
             },
             error: function () {
-                $('#contactResponse').html('<p style="color:red;">Something went wrong. Try again.</p>');
+                $('#contactResponse').html('<p class="form-response" style="color:red;">Something went wrong. Try again.</p>');
             }
         });
     });
