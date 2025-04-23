@@ -685,3 +685,34 @@ footer {
 .footer-section.social-media ul li a:hover {
     color: #d12f2f; /* Red hover color */
 }
+
+
+.team-member {
+    text-align: center;
+    margin: 20px;
+  }
+  
+  .team-member img {
+    width: 180px;                /* You can adjust this */
+    height: 180px;               /* Fixed height for uniform size */
+    object-fit: calc();           /* Ensures the image fills the box and looks good */
+    border-radius: 100px;         /* Slight rounding; use 50% for circle */
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+    border: 2px solid #e60000;   /* Red border for your theme */
+    transition: transform 0.3s ease;
+  }
+  
+  .team-member img:hover {
+    transform: scale(1.05);
+  }
+  
+  .team-member h3 {
+    color: #ffffff;
+    margin-top: 12px;
+  }
+  
+  .team-member p {
+    color: #ccc;
+    font-size: 0.9rem;
+  }
+  
