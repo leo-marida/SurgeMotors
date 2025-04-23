@@ -9,6 +9,14 @@ document.addEventListener("DOMContentLoaded", function () {
         window.location.href = 'index.html';
     });
 
+    
+    document.getElementById('signOutBtn2')?.addEventListener('click', function () {
+        localStorage.removeItem('username');
+        localStorage.clear();
+    
+        window.location.href = 'index.html';
+    });
+
 
     const username = localStorage.getItem('username');
     if (username) {

@@ -4,20 +4,20 @@ document.addEventListener('DOMContentLoaded', function () {
   let savedCars = JSON.parse(localStorage.getItem('bookmarkedCars') || '[]');
 
   function updateEmptyState() {
-      if (savedCars.length === 0) {
-          emptyState.style.display = 'block';
-      } else {
-          emptyState.style.display = 'none';
-      }
+    if (savedCars.length === 0) {
+      emptyState.style.display = 'block';
+    } else {
+      emptyState.style.display = 'none';
+    }
   }
 
   function renderCars() {
-      carList.innerHTML = ''; // Clear existing list
-      savedCars.forEach((car, index) => {
-          const card = document.createElement('div');
-          card.className = 'car-card';
+    carList.innerHTML = ''; // Clear existing list
+    savedCars.forEach((car, index) => {
+      const card = document.createElement('div');
+      card.className = 'car-card';
 
-          card.innerHTML = `
+      card.innerHTML = `
               <img src="${car.image}" alt="${car.title}">
               <h3>${car.title}</h3>
               <p><strong>${car.price}</strong></p>
@@ -28,21 +28,21 @@ document.addEventListener('DOMContentLoaded', function () {
               </div>
           `;
 
-          // View button
-          card.querySelector('.view-btn').onclick = () => {
-              window.location.href = car.detailsLink;
-          };
+      // View button
+      card.querySelector('.view-btn').onclick = () => {
+        window.location.href = car.detailsLink;
+      };
 
-          // Remove button
-          card.querySelector('.remove-btn').onclick = () => {
-              savedCars.splice(index, 1); // Remove from array
-              localStorage.setItem('bookmarkedCars', JSON.stringify(savedCars)); // Update storage
-              renderCars(); // Re-render list
-              updateEmptyState(); // Check if we need to show empty state
-          };
+      // Remove button
+      card.querySelector('.remove-btn').onclick = () => {
+        savedCars.splice(index, 1); // Remove from array
+        localStorage.setItem('bookmarkedCars', JSON.stringify(savedCars)); // Update storage
+        renderCars(); // Re-render list
+        updateEmptyState(); // Check if we need to show empty state
+      };
 
-          carList.appendChild(card);
-      });
+      carList.appendChild(card);
+    });
   }
 
   renderCars();
@@ -53,5 +53,13 @@ document.addEventListener('DOMContentLoaded', function () {
     localStorage.clear();
 
     window.location.href = 'index.html';
-});
+  });
+
+
+  document.getElementById('signOutBtn2')?.addEventListener('click', function () {
+    localStorage.removeItem('username');
+    localStorage.clear();
+
+    window.location.href = 'index.html';
+  });
 });
