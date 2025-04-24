@@ -2,61 +2,71 @@
 require_once 'connection.php';
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    $make = $_POST['make'];
-    $model = $_POST['model'];
+    $user_id = $_POST['user_id'];
+    $make = trim($_POST['make']);
+    $model = trim($_POST['model']);
     $year = $_POST['year'];
     $mileage = $_POST['mileage'];
-    $price = $_POST['vin']; // Assumed to be the price input
+    $expected_price = $_POST['expected_price'];
     $condition = $_POST['condition'];
-    $description = $_POST['description'];
-    $seller_name = $_POST['seller-name'];
-    $phone = $_POST['phone'];
-    $email = $_POST['email'];
-    $address = $_POST['address'];
+    $add_description = trim($_POST['add_description']);
 
-    if (empty($make) || empty($model) || empty($year) || empty($mileage) || empty($price) ||
-        empty($condition) || empty($description) || empty($seller_name) || empty($phone) ||
-        empty($email) || empty($address)) {
-        echo "All fields are required.";
+    // Basic validations
+    if (
+        empty($user_id) || empty($make) || empty($model) || empty($year) || empty($mileage) ||
+        empty($expected_price) || empty($condition)
+    ) {
+        echo "All required fields must be filled.";
         exit;
     }
 
-    if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
-        echo "Invalid email format.";
+    if (!is_numeric($year) || $year < 1900 || $year > 2025) {
+        echo "Invalid year.";
         exit;
     }
 
-    $image_paths = [];
+    if (!is_numeric($mileage) || $mileage < 0) {
+        echo "Invalid mileage.";
+        exit;
+    }
+
+    if (!is_numeric($expected_price) || $expected_price < 0) {
+        echo "Invalid expected price.";
+        exit;
+    }
+
+    // Handle image uploads
+    $uploadedImages = [];
     if (!empty($_FILES['images']['name'][0])) {
-        foreach ($_FILES['images']['tmp_name'] as $key => $tmp_name) {
-            $target_dir = "../uploads/";
-            $file_name = basename($_FILES["images"]["name"][$key]);
-            $target_file = $target_dir . time() . "_" . $file_name;
+        $targetDir = '../uploads/';
+        if (!is_dir($targetDir)) {
+            mkdir($targetDir, 0777, true);
+        }
 
-            if (move_uploaded_file($tmp_name, $target_file)) {
-                $image_paths[] = $target_file;
+        foreach ($_FILES['images']['tmp_name'] as $key => $tmp_name) {
+            $imageName = basename($_FILES['images']['name'][$key]);
+            $imagePath = $targetDir . time() . '_' . preg_replace("/[^a-zA-Z0-9._-]/", "_", $imageName);
+
+            if (move_uploaded_file($tmp_name, $imagePath)) {
+                $uploadedImages[] = $imagePath;
             }
         }
     }
 
-    $images = implode(",", $image_paths);
+    $imagesJson = json_encode($uploadedImages);
 
-    $sql = "INSERT INTO car_sale_requests (make, model, year, mileage, price, car_condition, description, images, seller_name, phone, email, address)
-            VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
-    $stmt = $conn->prepare($sql);
-    $stmt->bind_param("ssiissssssss", $make, $model, $year, $mileage, $price, $condition, $description, $images, $seller_name, $phone, $email, $address);
+    $stmt = $conn->prepare("INSERT INTO car_sale_requests (user_id, make, model, year, mileage, expected_price, condition, add_description, images) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)");
+    $stmt->bind_param("issiidsss", $user_id, $make, $model, $year, $mileage, $expected_price, $condition, $add_description, $imagesJson);
 
     if ($stmt->execute()) {
-        $to = "Devsquad@surgemotors.com";
-        $subject = "New Car for Sale Submission";
-        $message = "Seller: $seller_name\nPhone: $phone\nEmail: $email\nCar: $make $model ($year)\nMileage: $mileage\nPrice: $price\nCondition: $condition\nDescription: $description\nAddress: $address\nImages: $images";
-        $headers = "From: no-reply@surgemotors.com";
-
-        mail($to, $subject, $message, $headers);
-
-        echo "Car listing submitted and email sent!";
+        echo "Thank you for submitting this form, we will get back to you soon.";
     } else {
         echo "Error: " . $stmt->error;
     }
+
+    $stmt->close();
+    $conn->close();
+} else {
+    echo "Invalid request.";
 }
 ?>

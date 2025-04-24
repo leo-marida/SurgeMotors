@@ -2,11 +2,11 @@
 require_once 'connection.php';
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    $name = trim($_POST['reviewName']);
-    $review = trim($_POST['reviewText']);
+    $user_id = $_POST['user_id'];
+    $comment = trim($_POST['reviewText']);
     $rating = $_POST['rating'];
 
-    if (empty($name) || empty($review) || empty($rating)) {
+    if (empty($comment) || empty($rating) || empty($user_id)) {
         echo "All fields are required.";
         exit;
     }
@@ -16,17 +16,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         exit;
     }
 
-    $sql = "INSERT INTO reviews (name, review, rating) VALUES (?, ?, ?)";
+    $sql = "INSERT INTO reviews (user_id, comment, rating) VALUES (?, ?)";
     $stmt = $conn->prepare($sql);
-    $stmt->bind_param("ssi", $name, $review, $rating);
+    $stmt->bind_param("ssi",$user_id, $comment, $rating);
 
     if ($stmt->execute()) {
         echo "Review submitted successfully!";
-        $to = "Devsquad@surgemotors.com";
-        $subject = "New Customer Review Submitted";
-        $message = "Name: $name\nRating: $rating/5\nReview:\n$review";
-        $headers = "From: no-reply@surgemotors.com";
-        mail($to, $subject, $message, $headers);
     } else {
         echo "Error: " . $stmt->error;
     }

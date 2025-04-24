@@ -6,36 +6,35 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $password = trim($_POST['password']);
 
     if (empty($username) || empty($password)) {
-        echo "All fields are required.";
+        echo json_encode(["success" => false, "message" => "All fields are required."]);
         exit;
     }
 
-    $stmt = $conn->prepare("SELECT password FROM users WHERE username = ?");
+    $stmt = $conn->prepare("SELECT id, password FROM users WHERE username = ?");
     $stmt->bind_param("s", $username);
     $stmt->execute();
     $stmt->store_result();
 
     if ($stmt->num_rows > 0) {
-        $stmt->bind_result($hashedPassword);
+        $stmt->bind_result($user_id, $hashedPassword);
         $stmt->fetch();
 
         if (password_verify($password, $hashedPassword)) {
-            echo "Login successful!";
-            $to = "Devsquad@surgemotors.com";
-            $subject = "User Login Notification";
-            $message = "User '$username' just logged in.";
-            $headers = "From: no-reply@surgemotors.com";
-            mail($to, $subject, $message, $headers);
+            echo json_encode([
+                "success" => true,
+                "message" => "Login successful!",
+                "user_id" => $user_id
+            ]);
         } else {
-            echo "Incorrect password.";
+            echo json_encode(["success" => false, "message" => "Incorrect password."]);
         }
     } else {
-        echo "User not found.";
+        echo json_encode(["success" => false, "message" => "User not found."]);
     }
 
     $stmt->close();
     $conn->close();
 } else {
-    echo "Invalid request.";
+    echo json_encode(["success" => false, "message" => "Invalid request."]);
 }
 ?>

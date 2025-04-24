@@ -1,13 +1,64 @@
 $(document).ready(function () {
     // ========== Sign Up ==========
+    $('#signin-form').on('submit', function (e) {
+        e.preventDefault();
+
+        $.ajax({
+            type: 'POST',
+            url: '../php files/signin.php',
+            data: $(this).serialize(),
+            dataType: 'json', // expect JSON response
+            success: function (response) {
+                if (response.success) {
+                    // Store user ID in localStorage (you can adapt this for SharedPreferences on Android)
+                    localStorage.setItem('user_id', response.user_id);
+
+                    $('#signinResponse').html(
+                        '<div class="form-response" style="color: green;">' + response.message + '</div>'
+                    );
+
+                    // redirect to homepage or dashboard
+                    window.location.href = 'home.html';
+                } else {
+                    $('#signinResponse').html(
+                        '<div class="form-response" style="color: red;">' + response.message + '</div>'
+                    );
+                }
+            },
+            error: function () {
+                $('#signinResponse').html('<p style="color:red;">Something went wrong. Try again.</p>');
+            }
+        });
+    });
+
+
     $('#signup-form').on('submit', function (e) {
         e.preventDefault();
+
         $.ajax({
             type: 'POST',
             url: '../php files/signup.php',
             data: $(this).serialize(),
+            dataType: 'json', // expect JSON
             success: function (response) {
-                $('#signupResponse').html('<div class="form-response">' + response + '</div>');
+                if (response.success) {
+                    // Store user ID and optionally username in localStorage
+                    localStorage.setItem('user_id', response.user_id);
+                    localStorage.setItem('username', $('#username').val());
+
+                    $('#signupResponse').html(
+                        '<div class="form-response" style="color: green;">' + response.message + '</div>'
+                    );
+
+                    // Redirect to home page after short delay (or instantly)
+                    setTimeout(() => {
+                        window.location.href = 'home.html';
+                    }, 1000);
+                } else {
+                    $('#signupResponse').html(
+                        '<div class="form-response" style="color: red;">' + response.message + '</div>'
+                    );
+                }
             },
             error: function () {
                 $('#signupResponse').html('<p style="color:red;">Something went wrong. Try again.</p>');
@@ -15,21 +66,6 @@ $(document).ready(function () {
         });
     });
 
-    // ========== Sign In ==========
-    $('#signin-form').on('submit', function (e) {
-        e.preventDefault();
-        $.ajax({
-            type: 'POST',
-            url: '../php files/signin.php',
-            data: $(this).serialize(),
-            success: function (response) {
-                $('#signinResponse').html('<div class="form-response">' + response + '</div>');
-            },
-            error: function () {
-                $('#signinResponse').html('<p style="color:red;">Something went wrong. Try again.</p>');
-            }
-        });
-    });
 
     // ========== Sell Car ==========
     $('#sell-car-form').on('submit', function (e) {
@@ -71,7 +107,7 @@ $(document).ready(function () {
         e.preventDefault();
         $.ajax({
             type: 'POST',
-            url: 'http://localhost/SurgeMotors/php%20files/contact_us.php',
+            url: 'contact_us.php',
             data: $(this).serialize(),
             success: function (response) {
                 $('#contactResponse').html('<div class="form-response">' + response + '</div>');
@@ -122,4 +158,25 @@ $(document).ready(function () {
             }
         });
     });
+
+    $('#review-form').on('submit', function (e) {
+        e.preventDefault();
+        $.ajax({
+            type: 'POST',
+            url: '../php files/submit_review.php',
+            data: {
+                user_id: user_id,
+                reviewText: reviewText,
+                rating: rating
+            },
+            success: function (response) {
+                $('#reviewResponse').html('<p style="color:green;">' + response + '</p>');
+                $('#review-form')[0].reset();
+            },
+            error: function () {
+                $('#reviewResponse').html('<p style="color:red;">Something went wrong. Try again.</p>');
+            }
+        });
+    });
+
 });

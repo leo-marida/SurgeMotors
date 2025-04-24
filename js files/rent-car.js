@@ -43,6 +43,11 @@ document.addEventListener('DOMContentLoaded', () => {
         const totalCost = dailyPrice * days;
         rentalCostSpan.textContent = totalCost.toFixed(2);
     });
+
+    const userId = localStorage.getItem('user_id');
+    if (userId) {
+        document.getElementById('userIdInput').value = userId;
+    }
 });
 
 

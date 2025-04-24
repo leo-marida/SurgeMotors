@@ -1,5 +1,9 @@
 document.addEventListener("DOMContentLoaded", function () {
 
+    const userId = localStorage.getItem('user_id');
+    if (userId) {
+        document.getElementById('userIdInput').value = userId;
+    }
 
 
     document.getElementById('signOutBtn')?.addEventListener('click', function () {

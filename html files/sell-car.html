@@ -96,26 +96,26 @@
         <br />
         <form id="sell-car-form" autocapitalize="on" method="POST"
             enctype="multipart/form-data">
-
+            <input type="hidden" name="user_id" id="userIdInput">
             <!-- Car Details -->
             <h3>Car Details</h3>
             <label for="make">Make</label>
-            <input type="text" id="make" placeholder="e.g., Toyota, Ford" required>
+            <input type="text" name="make" id="make" placeholder="e.g., Toyota, Ford" required>
 
             <label for="model">Model</label>
-            <input type="text" id="model" placeholder="e.g., Camry, Mustang" required>
+            <input type="text" name="model" id="model" placeholder="e.g., Camry, Mustang" required>
 
             <label for="year">Year</label>
-            <input type="number" id="year" min="1900" max="2025" placeholder="e.g., 2020" required>
+            <input type="number" name="year" id="year" min="1900" max="2025" placeholder="e.g., 2020" required>
 
             <label for="mileage">Mileage (km)</label>
-            <input type="number" id="mileage" placeholder="e.g., 50000" required>
+            <input type="number" name ="mileage" id="mileage" placeholder="e.g., 50000" required>
 
             <label for="vin">Expected Price</label>
-            <input type="number" min="0" id="vin" required>
+            <input type="number" name="expected_price" min="0" id="vin" required>
 
             <label for="condition">Condition</label>
-            <select id="condition" required>
+            <select name="condition" id="condition" required>
                 <option value="">Select Condition</option>
                 <option value="Excellent">Excellent</option>
                 <option value="Good">Good</option>
@@ -124,26 +124,11 @@
             </select>
 
             <label for="description">Additional Details</label>
-            <textarea id="description" rows="4" placeholder="Describe any damages, upgrades, etc."></textarea>
+            <textarea name="add_description" id="description" rows="4" placeholder="Describe any damages, upgrades, etc."></textarea>
 
             <!-- Image Upload -->
             <h3>Upload Car Images</h3>
-            <input type="file" id="images" multiple accept="image/*" required>
-            <div id="image-preview"></div>
-
-            <!-- Seller Details -->
-            <h3>Your Information</h3>
-            <label for="seller-name">Full Name</label>
-            <input type="text" id="seller-name" placeholder="Enter your full name" required>
-
-            <label for="phone">Phone Number</label>
-            <input type="tel" id="phone" placeholder="Enter your phone number" required>
-
-            <label for="email">Email Address</label>
-            <input type="email" id="email" placeholder="Enter your email" required>
-
-            <label for="address">Address</label>
-            <input type="text" id="address" placeholder="Enter your address" required>
+            <input name="images[]" type="file" id="images" multiple accept="image/*" required>
 
             <button type="submit">Submit Your Car</button>
         </form>

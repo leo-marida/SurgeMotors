@@ -1,19 +1,24 @@
 window.addEventListener('DOMContentLoaded', () => {
 
   document.getElementById('signOutBtn')?.addEventListener('click', function () {
-      localStorage.removeItem('username');
-      localStorage.clear();
-  
-      window.location.href = 'index.html';
+    localStorage.removeItem('username');
+    localStorage.clear();
+
+    window.location.href = 'index.html';
   });
 
-  
+
   document.getElementById('signOutBtn2')?.addEventListener('click', function () {
     localStorage.removeItem('username');
     localStorage.clear();
 
     window.location.href = 'index.html';
-});
+  });
+
+  const userId = localStorage.getItem('user_id');
+  if (userId) {
+      document.getElementById('userIdInput').value = userId;
+  }
 });
 
 
@@ -35,41 +40,6 @@ stars.forEach((star) => {
   });
 });
 
-// Submit Review Form
-reviewForm.addEventListener('submit', (e) => {
-  e.preventDefault();
-
-  const name = document.getElementById('reviewName').value;
-  const text = document.getElementById('reviewText').value;
-
-  if (!name || !text || selectedRating === 0) {
-    alert('Please fill out all fields and select a rating.');
-    return;
-  }
-
-  // Create new review card
-  const reviewCard = document.createElement('div');
-  reviewCard.classList.add('review-card');
-
-  reviewCard.innerHTML = `
-    <div class="review-header">
-      <div class="review-avatar"></div>
-      <div class="review-info">
-        <h3>${name}</h3>
-        <div class="stars">${'★'.repeat(selectedRating)}${'☆'.repeat(5 - selectedRating)}</div>
-      </div>
-    </div>
-    <p class="review-text">${text}</p>
-  `;
-
-  // Add new review to the container
-  reviewsContainer.prepend(reviewCard);
-
-  // Reset form
-  reviewForm.reset();
-  stars.forEach((s) => s.classList.remove('active'));
-  selectedRating = 0;
-});
 
 
 function toggleMenu() {
@@ -77,11 +47,5 @@ function toggleMenu() {
 }
 
 
-const ratingInput = document.getElementById('reviewRating');
 
-stars.forEach(star => {
-  star.addEventListener('click', () => {
-    ratingInput.value = star.dataset.value;
-  });
-});
 

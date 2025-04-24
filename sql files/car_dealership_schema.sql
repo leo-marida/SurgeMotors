@@ -279,6 +279,7 @@ CREATE TABLE test_drive_bookings (
 
 CREATE TABLE car_sale_requests (
     id INT AUTO_INCREMENT PRIMARY KEY,
+    user_id INT NOT NULL,
     make VARCHAR(50) NOT NULL,
     model VARCHAR(50) NOT NULL,
     year INT NOT NULL,
@@ -287,9 +288,5 @@ CREATE TABLE car_sale_requests (
     car_condition ENUM('Excellent', 'Good', 'Fair', 'Needs Repair') NOT NULL,
     description TEXT,
     image_paths TEXT, -- You can store image file names or paths as JSON or comma-separated list
-    seller_name VARCHAR(100) NOT NULL,
-    phone VARCHAR(20) NOT NULL,
-    email VARCHAR(100) NOT NULL,
-    address TEXT NOT NULL,
     submitted_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
