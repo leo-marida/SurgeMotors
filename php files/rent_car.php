@@ -5,13 +5,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $user_id = $_POST['user_id'];
     $car_name = $_POST['car_name'];
     $car_year = $_POST['car_year'];
-    $rental_days = $_POST['rental-days'];
+    $num_of_days = $_POST['rental-days'];
     $pickup_date = $_POST['pickup-date'];
     $return_date = $_POST['return-date'];
 
 
-    if (empty($user_id) || empty($pickup_date) || empty($return_date) ||
-        empty($car_name) || empty($car_year) || empty($email) || empty($license)) {
+    if (empty($user_id) || empty($pickup_date) || empty($return_date) || empty($car_name) || empty($car_year) || empty($num_of_days)) {
         echo "All fields are required."; exit;
     }
 
@@ -23,16 +22,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $stmt->fetch();
     $stmt->close();
 
-    $stmt = $conn->prepare("INSERT INTO rented_cars (rental_days, pickup_date, return_date, full_name, phone, email, license_number) VALUES (?, ?, ?, ?, ?, ?, ?)");
-    $stmt->bind_param("issssss", $rental_days, $pickup_date, $return_date, $full_name, $phone, $email, $license);
+    $stmt = $conn->prepare("INSERT INTO rented_cars (car_id, user_id, num_of_days, rent_start_date, rent_end_date) VALUES (?, ?, ?, ?, ?)");
+    $stmt->bind_param("issssss", $car_id, $user_id, $num_of_days, $rent_start_date, $rent_end_date);
 
     if ($stmt->execute()) {
-        $to = "Devsquad@surgemotors.com";
-        $subject = "New Car Rental Request";
-        $body = "Name: $full_name\nPhone: $phone\nEmail: $email\nPickup: $pickup_date\nReturn: $return_date\nDays: $rental_days\nLicense: $license";
-        $headers = "From: $email";
-
-        mail($to, $subject, $body, $headers);
         echo "Car rental submitted successfully!";
     } else {
         echo "Error: " . $stmt->error;

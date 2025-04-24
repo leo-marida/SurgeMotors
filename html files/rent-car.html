@@ -104,6 +104,9 @@
         <p>Please fill in the details below to rent this car:</p>
         <br>
         <form id="rent-car-form" method="POST">
+            <input type="hidden" name="user_id" id="userIdInput">
+            <input type="hidden" name="car_name" id="hiddenCarName">
+            <input type="hidden" name="car_year" id="hiddenCarYear">
             <!-- Rental Duration -->
             <h3>Rental Duration:</h3>
             <br>
@@ -116,21 +119,6 @@
             <label for="return-date">Return Date</label>
             <input type="date" id="return-date" required>
             <br>
-            <!-- Personal Information -->
-            <h3>Your Information:</h3>
-            <br>
-            <label for="full-name">Full Name</label>
-            <input type="text" id="full-name" placeholder="Enter your full name" required>
-
-            <label for="phone">Phone Number</label>
-            <input type="tel" id="phone" placeholder="Enter your phone number" required>
-
-            <label for="email">Email Address</label>
-            <input type="email" id="email" placeholder="Enter your email" required>
-
-            <label for="license">Driver's License Number</label>
-            <input type="text" id="license" placeholder="Enter your license number" required>
-
             <button type="submit">Rent Car</button>
         </form>
         <div id="rentCarResponse"></div>

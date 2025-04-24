@@ -117,6 +117,7 @@ CREATE TABLE rented_cars (
     id INT AUTO_INCREMENT PRIMARY KEY,
     car_id INT NOT NULL,
     user_id INT NOT NULL,
+    num_of_days INT NOT NULL,
     rent_start_date DATE NOT NULL,
     rent_end_date DATE NOT NULL,
     rented_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
