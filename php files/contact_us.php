@@ -2,36 +2,25 @@
 require_once 'connection.php';
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    $name = htmlspecialchars(trim($_POST['name']));
-    $email = htmlspecialchars(trim($_POST['email']));
+    $user_id = $_POST['user_id'];
     $subject = htmlspecialchars(trim($_POST['subject']));
     $message = htmlspecialchars(trim($_POST['message']));
 
-    if (empty($name) || empty($email) || empty($subject) || empty($message)) {
+    if (empty($user_id) ||  empty($subject) || empty($message)) {
         echo "All fields are required.";
         exit;
     }
-    if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
-        echo "Invalid email address.";
-        exit;
-    }
 
-    $sql = "INSERT INTO contact_messages (name, email, subject, message) VALUES (?, ?, ?, ?)";
+    $sql = "INSERT INTO contact_messages (user_id, subject, message) VALUES (?, ?, ?)";
     $stmt = $conn->prepare($sql);
-    $stmt->bind_param("ssss", $name, $email, $subject, $message);
+    $stmt->bind_param("ssss", $user_id, $subject, $message);
 
     if ($stmt->execute()) {
-        $to = "leo.marida11@gmail.com";
-        $fullMessage = "From: $name\nEmail: $email\n\nMessage:\n$message";
-        $headers = "From: $email";
-
-        if (mail($to, $subject, $fullMessage, $headers)) {
-            echo "Message sent successfully!";
+        echo "Message sent successfully!";
         } else {
             echo "Message saved, but email failed to send.";
         }
     } else {
         echo "Error: " . $stmt->error;
     }
-}
 ?>

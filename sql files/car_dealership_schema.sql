@@ -103,7 +103,7 @@ CREATE TABLE featured_cars (
 CREATE TABLE sold_cars (
     id INT AUTO_INCREMENT PRIMARY KEY,
     car_id INT,
-    sold_to_user_id INT,
+    user_id INT,
     card_number_last4 VARCHAR(4),
     expiry_date VARCHAR(7),
     cvv VARCHAR(4),
@@ -116,7 +116,7 @@ CREATE TABLE sold_cars (
 CREATE TABLE rented_cars (
     id INT AUTO_INCREMENT PRIMARY KEY,
     car_id INT NOT NULL,
-    rented_to_user_id INT NOT NULL,
+    user_id INT NOT NULL,
     rent_start_date DATE NOT NULL,
     rent_end_date DATE NOT NULL,
     rented_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
@@ -159,8 +159,7 @@ CREATE TABLE partners (
 
 CREATE TABLE contact_messages (
     id INT AUTO_INCREMENT PRIMARY KEY,
-    name VARCHAR(100) NOT NULL,
-    email VARCHAR(100) NOT NULL,
+    user_id INT NOT NULL,
     subject VARCHAR(150) NOT NULL,
     message TEXT NOT NULL,
     submitted_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
