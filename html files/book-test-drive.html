@@ -101,27 +101,17 @@
         <form id="testDriveForm" method="POST">
             <br>
             <h3 style="color:black">Car Details:</h3>
-            <p style="color:black"><strong>Model:</strong> <span id="car-name"></span></p>
+            <p><span id="car-image"><img /> </span></p>
+            <p style="color:black"><strong>Car Name:</strong> <span id="car-name"></span></p>
+            <p style="color:black"><strong>Car Model:</strong> <span id="car-name"></span></p>
             <p style="color:black"><strong>Year:</strong> <span id="car-year"></span></p>
             <br>
-            <label for="name">Name:</label>
-            <input type="text" id="name" name="name" required>
-
-            <label for="email">Email:</label>
-            <input type="email" id="email" name="email" required>
-
-            <label for="phone">Phone Number:</label>
-            <input type="tel" id="phone" name="phone" required pattern="[0-9]{10}"
-                title="Enter a 10-digit phone number">
 
             <label for="date">Preferred Date:</label>
             <input type="date" id="date" name="date" required>
 
             <label for="time">Preferred Time:</label>
             <input type="time" id="time" name="time" required>
-
-            <label for="car_model">Car Model:</label>
-            <input type="text" id="car_model" name="car_model" required>
 
             <input type="submit" value="Book Test Drive">
         </form>

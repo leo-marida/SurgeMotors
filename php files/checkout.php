@@ -2,8 +2,7 @@
 require_once 'connection.php';
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    $car_id = $_POST['car_id'];
-    $user_id = $_POST['user_id'];
+    
 
     $full_name = htmlspecialchars(trim($_POST['full-name']));
     $phone = htmlspecialchars(trim($_POST['phone']));
@@ -13,7 +12,29 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $expiry_date = $_POST['expiry-date'];
     $cvv = htmlspecialchars(trim($_POST['cvv']));
 
-    if (empty($car_id) || empty($user_id) || empty($full_name) || empty($phone) ||
+    // Lookup user_id by email
+    $sold_to_user_id = null;
+    $user_query = $conn->prepare("SELECT id FROM users WHERE email = ?");
+    $user_query->bind_param("s", $email);
+    $user_query->execute();
+    $user_result = $user_query->get_result();
+    if ($user_result->num_rows > 0) {
+        $sold_to_user_id = $user_result->fetch_assoc()['id'];
+    }
+
+    // Lookup car_id by car model
+    $car_id = null;
+    $car_query = $conn->prepare("SELECT id FROM cars WHERE model = ?");
+    $car_query->bind_param("s", $car_model);
+    $car_query->execute();
+    $car_result = $car_query->get_result();
+    if ($car_result->num_rows > 0) {
+        $car_id = $car_result->fetch_assoc()['id'];
+    } else {
+        echo "Car not found."; exit;
+    }
+
+    if (empty($car_id) || empty($sold_to_user_id) || empty($full_name) || empty($phone) ||
         empty($email) || empty($address) || empty($card_number) || empty($expiry_date) || empty($cvv) ||
         !isset($_FILES['idFront']) || !isset($_FILES['idBack'])) {
         echo "All fields are required.";
@@ -25,23 +46,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         exit;
     }
 
-    // Upload ID images
-    $uploads_dir = '../uploads/ids';
-    if (!file_exists($uploads_dir)) {
-        mkdir($uploads_dir, 0777, true);
-    }
-
-    $id_front_path = $uploads_dir . '/' . basename($_FILES['idFront']['name']);
-    $id_back_path = $uploads_dir . '/' . basename($_FILES['idBack']['name']);
-
-    move_uploaded_file($_FILES['idFront']['tmp_name'], $id_front_path);
-    move_uploaded_file($_FILES['idBack']['tmp_name'], $id_back_path);
-
     // Store only the last 4 digits of card number
     $card_last4 = substr($card_number, -4);
 
-    $stmt = $conn->prepare("INSERT INTO sold_cars (car_id, sold_to_user_id, full_name, phone, email, address, id_front_path, id_back_path, card_number_last4, expiry_date, cvv) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
-    $stmt->bind_param("iisssssssss", $car_id, $user_id, $full_name, $phone, $email, $address, $id_front_path, $id_back_path, $card_last4, $expiry_date, $cvv);
+    $stmt = $conn->prepare("INSERT INTO sold_cars (car_id, sold_to_user_id, full_name, phone, email, address, card_number_last4, expiry_date, cvv) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
+    $stmt->bind_param("iisssssssss", $car_id, $sold_to_user_id, $full_name, $phone, $email, $address, $card_last4, $expiry_date, $cvv);
 
     if ($stmt->execute()) {
         // 📧 Send notification email to SurgeMotors
@@ -56,10 +65,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
               . "Card (Last 4): $card_last4\n"
               . "Expiry Date: $expiry_date\n"
               . "CVV: $cvv\n\n"
-              . "ID Files:\n"
-              . "Front: $id_front_path\n"
-              . "Back: $id_back_path\n"
-              . "User ID: $user_id\n"
+              . "User ID: $sold_to_user_id\n"
               . "Car ID: $car_id\n";
 
         $headers = "From: $email";

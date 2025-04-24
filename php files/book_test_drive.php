@@ -2,9 +2,7 @@
 require_once 'connection.php';
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    $name = htmlspecialchars(trim($_POST['name']));
-    $email = htmlspecialchars(trim($_POST['email']));
-    $phone = htmlspecialchars(trim($_POST['phone']));
+    $user_id = $_POST['user_id'];
     $date = $_POST['date'];
     $time = $_POST['time'];
     $car_model = htmlspecialchars(trim($_POST['car_model']));
@@ -15,16 +13,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
     if (!filter_var($email, FILTER_VALIDATE_EMAIL)) { echo "Invalid email."; exit; }
     if (!preg_match('/^[0-9]{10}$/', $phone)) { echo "Invalid phone number."; exit; }
-
-    // Lookup user_id by email
-    $user_id = null;
-    $user_query = $conn->prepare("SELECT id FROM users WHERE email = ?");
-    $user_query->bind_param("s", $email);
-    $user_query->execute();
-    $user_result = $user_query->get_result();
-    if ($user_result->num_rows > 0) {
-        $user_id = $user_result->fetch_assoc()['id'];
-    }
 
     // Lookup car_id by car model
     $car_id = null;
