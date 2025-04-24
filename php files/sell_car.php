@@ -8,13 +8,13 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $year = $_POST['year'];
     $mileage = $_POST['mileage'];
     $expected_price = $_POST['expected_price'];
-    $condition = $_POST['condition'];
+    $car_condition = $_POST['car_condition'];
     $add_description = trim($_POST['add_description']);
 
     // Basic validations
     if (
         empty($user_id) || empty($make) || empty($model) || empty($year) || empty($mileage) ||
-        empty($expected_price) || empty($condition)
+        empty($expected_price) || empty($car_condition)
     ) {
         echo "All required fields must be filled.";
         exit;
@@ -55,8 +55,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
     $imagesJson = json_encode($uploadedImages);
 
-    $stmt = $conn->prepare("INSERT INTO car_sale_requests (user_id, make, model, year, mileage, expected_price, condition, add_description, images) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)");
-    $stmt->bind_param("issiidsss", $user_id, $make, $model, $year, $mileage, $expected_price, $condition, $add_description, $imagesJson);
+    $stmt = $conn->prepare("INSERT INTO car_sale_requests (user_id, make, model, year, mileage, expected_price, car_condition, add_description, images) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)");
+    $stmt->bind_param("issiidsss", $user_id, $make, $model, $year, $mileage, $expected_price, $car_condition, $add_description, $imagesJson);
 
     if ($stmt->execute()) {
         echo "Thank you for submitting this form, we will get back to you soon.";
