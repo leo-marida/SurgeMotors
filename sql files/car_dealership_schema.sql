@@ -132,21 +132,16 @@ CREATE TABLE test_drive_bookings (
 
 CREATE TABLE car_sale_requests (
     id INT AUTO_INCREMENT PRIMARY KEY,
+    user_id INT NOT NULL,
     make VARCHAR(50) NOT NULL,
     model VARCHAR(50) NOT NULL,
     year INT NOT NULL,
     mileage INT NOT NULL,
     expected_price DECIMAL(10, 2) NOT NULL,
     car_condition ENUM('Excellent', 'Good', 'Fair', 'Needs Repair') NOT NULL,
-    description TEXT,
+    add_description TEXT,
     image_paths TEXT,
-    seller_name VARCHAR(100) NOT NULL,
-    phone VARCHAR(20) NOT NULL,
-    email VARCHAR(100) NOT NULL,
-    address TEXT NOT NULL,
     submitted_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    card_number_last4 VARCHAR(4),
-    expiry_date VARCHAR(7),
-    cvv VARCHAR(4), -- usually it's 3 digits, but we can allow a bit more
     sold_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
+

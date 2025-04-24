@@ -14,7 +14,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     // Basic validations
     if (
         empty($user_id) || empty($make) || empty($model) || empty($year) || empty($mileage) ||
-        empty($expected_price) || empty($car_condition)
+        empty($expected_price) || empty($car_condition)|| empty($add_description)
     ) {
         echo "All required fields must be filled.";
         exit;
