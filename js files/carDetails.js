@@ -112,13 +112,13 @@ document.addEventListener('DOMContentLoaded', () => {
         const name = document.getElementById('carName').textContent;
         const price = document.getElementById('carPrice').textContent;
         const year = document.getElementById('carYear').textContent;
-        const mileage = document.getElementById('carMileage').textContent;
+        const img = document.getElementById('image1').src;
 
         const url = new URL('../html files/checkout.html', window.location.origin);
         url.searchParams.set('name', name);
         url.searchParams.set('price', price);
         url.searchParams.set('year', year);
-        url.searchParams.set('mileage', mileage);
+        url.searchParams.set('img', img);
 
         window.location.href = url.toString();
     });
@@ -146,13 +146,17 @@ document.addEventListener('DOMContentLoaded', () => {
     document.getElementById('bookTestDriveBtn').addEventListener('click', () => {
         const name = document.getElementById('carName').textContent;
         const year = document.getElementById('carYear').textContent;
+        const img = document.getElementById('image1').src;
 
         const url = new URL('../html files/book-test-drive.html', window.location.origin);
         url.searchParams.set('name', name);
         url.searchParams.set('year', year);
+        url.searchParams.set('img', image1);
 
         window.location.href = url.toString();
     });
+
+    
 
     document.getElementById('saveCarBtn').addEventListener('click', () => {
         const title = document.querySelector('#carName').textContent;

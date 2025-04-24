@@ -104,10 +104,6 @@ CREATE TABLE sold_cars (
     id INT AUTO_INCREMENT PRIMARY KEY,
     car_id INT,
     sold_to_user_id INT,
-    full_name VARCHAR(255),
-    phone VARCHAR(50),
-    email VARCHAR(255),
-    address TEXT,
     card_number_last4 VARCHAR(4),
     expiry_date VARCHAR(7),
     cvv VARCHAR(4),
@@ -197,7 +193,6 @@ CREATE TABLE car_sale_requests (
     email VARCHAR(100) NOT NULL,
     address TEXT NOT NULL,
     submitted_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
-);
     card_number_last4 VARCHAR(4),
     expiry_date VARCHAR(7),
     cvv VARCHAR(4), -- usually it's 3 digits, but we can allow a bit more
@@ -272,16 +267,13 @@ CREATE TABLE test_drive_bookings (
     id INT AUTO_INCREMENT PRIMARY KEY,
     user_id INT NOT NULL,
     car_id INT NOT NULL,
-    name varchar(100) NOT NULL,
-    email VARCHAR(100) NOT NULL,
-    phone VARCHAR(20) NOT NULL,
-    model varchar(100) NOT NULL,
     booking_date DATE NOT NULL,
     booking_time TIME NOT NULL,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
 
     FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE,
     FOREIGN KEY (car_id) REFERENCES cars(id) ON DELETE CASCADE
+    UNIQUE KEY (user_id, car_id, booking_date, booking_time)
 );
 
 

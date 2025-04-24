@@ -1,51 +1,45 @@
 <?php
-require_once 'connection.php';
+include 'db_connection.php'; // assumes $conn is set
 
-if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    $user_id = $_POST['user_id'];
-    $date = $_POST['date'];
-    $time = $_POST['time'];
-    $car_model = htmlspecialchars(trim($_POST['car_model']));
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    $user_id = intval($_POST['user_id']);
+    $car_name = trim($_POST['car_name']);
+    $car_year = intval($_POST['car_year']);
+    $booking_date = $_POST['date'];
+    $booking_time = $_POST['time'];
 
-    if (empty($name) || empty($email) || empty($phone) || empty($date) || empty($time) || empty($car_model)) {
-        echo "All fields are required."; exit;
+    // 1. Find the car_id
+    $stmt = $conn->prepare("SELECT id FROM cars WHERE name = ? AND year = ?");
+    $stmt->bind_param("ssi", $car_name, $car_year);
+    $stmt->execute();
+    $stmt->bind_result($car_id);
+    $stmt->fetch();
+    $stmt->close();
+
+    if (!$car_id) {
+        http_response_code(404);
+        echo "Car not found.";
+        exit();
     }
 
-    if (!filter_var($email, FILTER_VALIDATE_EMAIL)) { echo "Invalid email."; exit; }
-    if (!preg_match('/^[0-9]{10}$/', $phone)) { echo "Invalid phone number."; exit; }
-
-    // Lookup car_id by car model
-    $car_id = null;
-    $car_query = $conn->prepare("SELECT id FROM cars WHERE model = ?");
-    $car_query->bind_param("s", $car_model);
-    $car_query->execute();
-    $car_result = $car_query->get_result();
-    if ($car_result->num_rows > 0) {
-        $car_id = $car_result->fetch_assoc()['id'];
-    } else {
-        echo "Car not found."; exit;
-    }
-
-    $stmt = $conn->prepare("
-        INSERT INTO test_drive_bookings 
-        (user_id, car_id, booking_date, booking_time, name, email, phone) 
-        VALUES (?, ?, ?, ?, ?, ?, ?)
-    ");
-    $stmt->bind_param("iisssss", $user_id, $car_id, $date, $time, $name, $email, $phone);
+    // 2. Insert the booking
+    $stmt = $conn->prepare("INSERT INTO test_drive_bookings (user_id, car_id, booking_date, booking_time) VALUES (?, ?, ?, ?)");
+    $stmt->bind_param("iiss", $user_id, $car_id, $booking_date, $booking_time);
 
     if ($stmt->execute()) {
-        $to = "Devsquad@surgemotors.com";
-        $subject = "New Test Drive Booking";
-        $message = "Name: $name\nEmail: $email\nPhone: $phone\nDate: $date\nTime: $time\nCar Model: $car_model";
-        $headers = "From: $email";
-
-        if (mail($to, $subject, $message, $headers)) {
-            echo "Test Drive Booked Successfully and Email Sent!";
-        } else {
-            echo "Test Drive Booked, but Email Failed to Send!";
-        }
+        echo "Test drive booked successfully.";
     } else {
-        echo "Error: " . $stmt->error;
+        if ($conn->errno == 1062) {
+            echo "You already booked this test drive.";
+        } else {
+            echo "Error booking test drive: " . $conn->error;
+        }
     }
+
+    $stmt->close();
+    $conn->close();
+} else {
+    http_response_code(405);
+    echo "Method Not Allowed";
 }
 ?>
