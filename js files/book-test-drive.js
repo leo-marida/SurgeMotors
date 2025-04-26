@@ -15,10 +15,6 @@ window.addEventListener('DOMContentLoaded', () => {
         window.location.href = 'index.html';
     });
 
-    const userId = localStorage.getItem('user_id');
-    if (userId) {
-        document.getElementById('userIdInput').value = userId;
-    }
 
 
     const urlParams = new URLSearchParams(window.location.search);
@@ -33,6 +29,15 @@ window.addEventListener('DOMContentLoaded', () => {
     document.getElementById('hiddenCarName').value = name;
     document.getElementById('hiddenCarYear').value = year;
 
+        // Populate hidden fields for backend form submission
+        document.getElementById('hiddenCarName').value = name;
+        document.getElementById('hiddenCarYear').value = year;
+    
+        // Populate user ID from localStorage
+        const userId = localStorage.getItem('user_id');
+        if (userId) {
+            document.getElementById('userIdInput').value = userId;
+        }
 });
 
 function toggleMenu() {

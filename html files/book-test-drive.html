@@ -98,12 +98,15 @@
         <h2 style="text-align:center; font-family: 'Segoe UI';">Book a Test Drive</h2>
         <p style="text-align:center">Please fill in the details below to schedule your test drive.</p>
         <br>
-        <form id="testDriveForm" method="POST" action="../php files/book_test_drive.php">
+        <form id="testDriveForm" method="GET">
             <h3 style="color:black">Car Details:</h3>
             <p><span id="car-image"><img id="carImagePreview" /></span></p>
             <p style="color:black"><strong>Car Name:</strong> <span id="car-name"></span></p>
-            <p style="color:black"><strong>Year:</strong> <span id="car-year"></span></p>
-        
+
+            <input type="hidden" name="user_id" id="userIdInput">
+            <input type="hidden" name="car_name" id="hiddenCarName">
+            <input type="hidden" name="car_year" id="hiddenCarYear">
+
             <label for="date">Preferred Date:</label>
             <input type="date" id="date" name="date" required>
         

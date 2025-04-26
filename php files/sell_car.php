@@ -1,24 +1,30 @@
 <?php
 require_once 'connection.php';
 
-if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    $user_id = $_POST['user_id'];
-    $make = trim($_POST['make']);
-    $model = trim($_POST['model']);
-    $year = $_POST['year'];
-    $mileage = $_POST['mileage'];
-    $expected_price = $_POST['expected_price'];
-    $car_condition = $_POST['car_condition'];
-    $add_description = trim($_POST['add_description']);
+if ($_SERVER['REQUEST_METHOD'] === 'GET') {
+    $user_id = $_GET['user_id'];
+    $make = trim($_GET['make']);
+    $model = trim($_GET['model']);
+    $year = $_GET['year'];
+    $mileage = $_GET['mileage'];
+    $expected_price = $_GET['expected_price'];
+    $car_condition = $_GET['car_condition'];
+    $add_description = isset($_GET['add_description']) ? trim($_GET['add_description']) : null;
+    if ($add_description === '') {
+        $add_description = null;
+    }
 
+    echo "all values received \n";
     // Basic validations
     if (
         empty($user_id) || empty($make) || empty($model) || empty($year) || empty($mileage) ||
-        empty($expected_price) || empty($car_condition)|| empty($add_description)
+        empty($expected_price) || empty($car_condition)
     ) {
         echo "All required fields must be filled.";
         exit;
     }
+
+
 
     if (!is_numeric($year) || $year < 1900 || $year > 2025) {
         echo "Invalid year.";
@@ -35,9 +41,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         exit;
     }
 
+    echo "now validation of images \n";
+    // Handle image uploads
     // Handle image uploads
     $uploadedImages = [];
-    if (!empty($_FILES['images']['name'][0])) {
+
+    if (isset($_FILES['images']) && !empty($_FILES['images']['name'][0])) {
         $targetDir = '../uploads/';
         if (!is_dir($targetDir)) {
             mkdir($targetDir, 0777, true);
@@ -53,9 +62,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         }
     }
 
-    $imagesJson = json_encode($uploadedImages);
+    // If no images uploaded, set NULL instead of empty array
+    $imagesJson = !empty($uploadedImages) ? json_encode($uploadedImages) : null;
 
-    $stmt = $conn->prepare("INSERT INTO car_sale_requests (user_id, make, model, year, mileage, expected_price, car_condition, add_description, images) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)");
+
+    echo "images prepared \n";
+    $stmt = $conn->prepare("INSERT INTO car_sale_requests (user_id, make, model, year, mileage, expected_price, car_condition, add_description, image_paths) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)");
     $stmt->bind_param("issiidsss", $user_id, $make, $model, $year, $mileage, $expected_price, $car_condition, $add_description, $imagesJson);
 
     if ($stmt->execute()) {

@@ -1,26 +1,27 @@
 <?php
 require_once 'connection.php';
 
-if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    $user_id = $_POST['user_id'];
-    $subject = htmlspecialchars(trim($_POST['subject']));
-    $message = htmlspecialchars(trim($_POST['message']));
+if ($_SERVER['REQUEST_METHOD'] === 'GET') {
+    $user_id = $_GET['user_id'];
+    $subject = htmlspecialchars(trim($_GET['subject']));
+    $message = htmlspecialchars(trim($_GET['message']));
 
-    if (empty($user_id) ||  empty($subject) || empty($message)) {
+    if (empty($user_id) || empty($subject) || empty($message)) {
         echo "All fields are required.";
         exit;
     }
 
-    $sql = "INSERT INTO contact_messages (user_id, subject, message) VALUES (?, ?, ?)";
-    $stmt = $conn->prepare($sql);
-    $stmt->bind_param("ssss", $user_id, $subject, $message);
+    // Use prepared statement for security
+    $stmt = $conn->prepare("INSERT INTO contact_messages (user_id, subject, message) VALUES (?, ?, ?)");
+    $stmt->bind_param("iss", $user_id, $subject, $message);
 
     if ($stmt->execute()) {
         echo "Message sent successfully!";
-        } else {
-            echo "Message saved, but email failed to send.";
-        }
     } else {
-        echo "Error: " . $stmt->error;
+        echo "Failed to send message.";
     }
+
+    $stmt->close();
+    $conn->close();
+}
 ?>

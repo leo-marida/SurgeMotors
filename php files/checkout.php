@@ -1,22 +1,23 @@
 <?php
 require_once 'connection.php';
 
-if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    $user_id = $_POST['user_id'];
-    $card_number = preg_replace('/\D/', '', $_POST['card-number']);
-    $expiry_date = $_POST['expiry-date'];
-    $cvv = htmlspecialchars(trim($_POST['cvv']));
-    $car_name = trim($_POST['car_name']);
-    $car_year = intval($_POST['car_year']);
+if ($_SERVER['REQUEST_METHOD'] === 'GET') {
+    $user_id = $_GET['user_id'];
+    $card_number = preg_replace('/\D/', '', $_GET['card-number']);
+    $expiry_date = $_GET['expiry-date'];
+    $cvv = htmlspecialchars(trim($_GET['cvv']));
+    $car_name = trim($_GET['car_name']);
 
+    echo"values received\n";
     // Get car ID
-    $stmt = $conn->prepare("SELECT id FROM cars WHERE name = ? AND year = ?");
-    $stmt->bind_param("si", $car_name, $car_year);
+    $stmt = $conn->prepare("SELECT id FROM cars WHERE model = ?");
+    $stmt->bind_param("s", $car_name);
     $stmt->execute();
     $stmt->bind_result($car_id);
     $stmt->fetch();
     $stmt->close();
 
+    echo"car_id found!\n";
     if (empty($user_id) || empty($card_number) || empty($expiry_date) || empty($cvv)) {
         echo "All fields are required.";
         exit;
@@ -26,7 +27,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $card_last4 = substr($card_number, -4);
 
     // Insert into sold_cars
-    $stmt = $conn->prepare("INSERT INTO sold_cars (car_id, sold_to_user_id, card_number_last4, expiry_date, cvv) VALUES (?, ?, ?, ?, ?)");
+    $stmt = $conn->prepare("INSERT INTO sold_cars (car_id, user_id, card_number_last4, expiry_date, cvv) VALUES (?, ?, ?, ?, ?)");
     $stmt->bind_param("iisss", $car_id, $user_id, $card_last4, $expiry_date, $cvv);
 
     if ($stmt->execute()) {

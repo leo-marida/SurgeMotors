@@ -1,9 +1,9 @@
 <?php
 require_once 'connection.php';
-
-if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    $username = trim($_POST['username']);
-    $password = trim($_POST['password']);
+header('Content-Type: application/json');
+if ($_SERVER["REQUEST_METHOD"] == "GET") {
+    $username = trim($_GET['username']);
+    $password = trim($_GET['password']);
 
     if (empty($username) || empty($password)) {
         echo json_encode(["success" => false, "message" => "All fields are required."]);

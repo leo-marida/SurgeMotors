@@ -94,7 +94,7 @@
         <p>Please fill in the details below to submit your car for sale.</p>
 
         <br />
-        <form id="sell-car-form" autocapitalize="on" method="POST"
+        <form id="sell-car-form" autocapitalize="on" method="GET"
             enctype="multipart/form-data">
             <input type="hidden" name="user_id" id="userIdInput">
             <!-- Car Details -->
@@ -128,7 +128,7 @@
 
             <!-- Image Upload -->
             <h3>Upload Car Images</h3>
-            <input name="images[]" type="file" id="images" multiple accept="image/*" required>
+            <input name="images[]" type="file" id="images" multiple accept="image/*" enctype="multipart/form-data" required>
 
             <button type="submit">Submit Your Car</button>
         </form>

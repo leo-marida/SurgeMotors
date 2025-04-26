@@ -37,7 +37,7 @@ $(document).ready(function () {
 
         $.ajax({
             type: 'POST',
-            url: '../php files/signup.php',
+            url: 'https:localhost/SurgeMotors/php files/signup.php',
             data: $(this).serialize(),
             dataType: 'json', // expect JSON
             success: function (response) {

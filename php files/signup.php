@@ -1,11 +1,11 @@
 <?php
 require_once 'connection.php';
 
-if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    $username = $_POST["username"];
-    $email = $_POST["email"];
-    $password = $_POST["password"];
-    $confirm_password = $_POST["confirm_password"];
+if ($_SERVER["REQUEST_METHOD"] == "GET") {
+    $username = $_GET["username"];
+    $email = $_GET["email"];
+    $password = $_GET["password"];
+    $confirm_password = $_GET["confirm_password"];
 
     if (empty($username) || empty($email) || empty($password) || empty($confirm_password)) {
         echo json_encode(["success" => false, "message" => "All fields are required."]);

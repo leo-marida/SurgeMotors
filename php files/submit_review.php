@@ -1,10 +1,10 @@
 <?php
 require_once 'connection.php';
 
-if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    $user_id = $_POST['user_id'];
-    $comment = trim($_POST['reviewText']);
-    $rating = $_POST['rating'];
+if ($_SERVER['REQUEST_METHOD'] === 'GET') {
+    $user_id = $_GET['user_id'];
+    $comment = trim($_GET['reviewText']);
+    $rating = $_GET['rating'];
 
     if (empty($comment) || empty($rating) || empty($user_id)) {
         echo "All fields are required.";
@@ -16,7 +16,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         exit;
     }
 
-    $sql = "INSERT INTO reviews (user_id, comment, rating) VALUES (?, ?)";
+    $sql = "INSERT INTO reviews (user_id, comment, rating) VALUES (?, ?, ?)";
     $stmt = $conn->prepare($sql);
     $stmt->bind_param("ssi",$user_id, $comment, $rating);
 

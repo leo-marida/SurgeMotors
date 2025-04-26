@@ -1,26 +1,25 @@
 <?php
-include 'db_connection.php'; // assumes $conn is set
+require_once 'connection.php'; // assumes $conn is set
 
-if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    $user_id = intval($_POST['user_id']);
-    $car_name = trim($_POST['car_name']);
-    $car_year = intval($_POST['car_year']);
-    $booking_date = $_POST['date'];
-    $booking_time = $_POST['time'];
+if ($_SERVER['REQUEST_METHOD'] === 'GET') {
+    $user_id = intval($_GET['user_id']);
+    $car_name = trim($_GET['car_name']);
+    $booking_date = $_GET['date'];
+    $booking_time = $_GET['time'];
 
     // 1. Find the car_id
-    $stmt = $conn->prepare("SELECT id FROM cars WHERE name = ? AND year = ?");
-    $stmt->bind_param("ssi", $car_name, $car_year);
+    $stmt = $conn->prepare("SELECT id FROM cars WHERE model = ?");
+    $stmt->bind_param("s", $car_name);
     $stmt->execute();
     $stmt->bind_result($car_id);
     $stmt->fetch();
     $stmt->close();
 
     if (!$car_id) {
-        http_response_code(404);
         echo "Car not found.";
         exit();
     }
+    echo "Car Found!\n";
 
     // 2. Insert the booking
     $stmt = $conn->prepare("INSERT INTO test_drive_bookings (user_id, car_id, booking_date, booking_time) VALUES (?, ?, ?, ?)");
@@ -29,17 +28,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     if ($stmt->execute()) {
         echo "Test drive booked successfully.";
     } else {
-        if ($conn->errno == 1062) {
-            echo "You already booked this test drive.";
-        } else {
-            echo "Error booking test drive: " . $conn->error;
-        }
+        echo "Error booking test drive";
     }
 
     $stmt->close();
     $conn->close();
 } else {
-    http_response_code(405);
-    echo "Method Not Allowed";
+    echo "Invalid request";
 }
 ?>

@@ -91,15 +91,14 @@
     <div class="form-container">
         <h2>Checkout</h2>
         <br/>
-        <form id="checkout-form" method="POST" enctype="multipart/form-data">
+        <form id="checkout-form" method="GET" enctype="multipart/form-data">
             <h3>Car Details:</h3>
             <p><span id="car-image"><img id="carImagePreview" /></span></p>
-            <p><strong>Model:</strong> <span id="car-name"></span></p>
-            <p><strong>Year:</strong> <span id="car-year"></span></p>
-        
+            <p><strong>Car Name:</strong> <span id="car-name"></span></p>
+            <br>
             <h3>Total Cost:</h3>
             <p id="total-cost"></p>
-        
+            <br>
             <!-- Hidden fields for backend -->
             <input type="hidden" name="user_id" id="userIdInput">
             <input type="hidden" name="car_name" id="hiddenCarName">
