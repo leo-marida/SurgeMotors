@@ -1,87 +1,82 @@
 $(document).ready(function () {
-    // ========== Sign Up ==========
+
+    // ========== Sign In ==========
     $('#signin-form').on('submit', function (e) {
         e.preventDefault();
+        const form = this;
+        const formData = new FormData(form);
+        const queryString = new URLSearchParams(formData).toString();
 
         $.ajax({
-            type: 'POST',
-            url: '../php files/signin.php',
-            data: $(this).serialize(),
-            dataType: 'json', // expect JSON response
+            type: 'GET',
+            url: '../php files/signin.php?' + queryString,
             success: function (response) {
-                if (response.success) {
-                    // Store user ID in localStorage (you can adapt this for SharedPreferences on Android)
-                    localStorage.setItem('user_id', response.user_id);
+                try {
+                    const jsonResponse = JSON.parse(response);
 
-                    $('#signinResponse').html(
-                        '<div class="form-response" style="color: green;">' + response.message + '</div>'
-                    );
-
-                    // redirect to homepage or dashboard
-                    window.location.href = 'home.html';
-                } else {
-                    $('#signinResponse').html(
-                        '<div class="form-response" style="color: red;">' + response.message + '</div>'
-                    );
+                    if (jsonResponse.success) {
+                        localStorage.setItem('user_id', jsonResponse.user_id);
+                        alert("Sign in successful!");
+                        window.location.href = 'home.html';
+                    } else {
+                        alert("Invalid credentials!");
+                    }
+                } catch (error) {
+                    alert("Error occurred while signing in");
                 }
             },
             error: function () {
-                $('#signinResponse').html('<p style="color:red;">Something went wrong. Try again.</p>');
+                alert("Error occurred while submitting form");
             }
         });
     });
 
-
+    // ========== Sign Up ==========
     $('#signup-form').on('submit', function (e) {
         e.preventDefault();
+        const form = this;
+        const formData = new FormData(form);
+        const queryString = new URLSearchParams(formData).toString();
 
         $.ajax({
-            type: 'POST',
-            url: 'https:localhost/SurgeMotors/php files/signup.php',
-            data: $(this).serialize(),
-            dataType: 'json', // expect JSON
+            type: 'GET',
+            url: '../php files/signup.php?' + queryString,
             success: function (response) {
-                if (response.success) {
-                    // Store user ID and optionally username in localStorage
-                    localStorage.setItem('user_id', response.user_id);
-                    localStorage.setItem('username', $('#username').val());
+                try {
+                    const jsonResponse = JSON.parse(response);
 
-                    $('#signupResponse').html(
-                        '<div class="form-response" style="color: green;">' + response.message + '</div>'
-                    );
-
-                    // Redirect to home page after short delay (or instantly)
-                    setTimeout(() => {
+                    if (jsonResponse.success) {
+                        localStorage.setItem('user_id', jsonResponse.user_id);
+                        alert("Sign up successful!");
                         window.location.href = 'home.html';
-                    }, 1000);
-                } else {
-                    $('#signupResponse').html(
-                        '<div class="form-response" style="color: red;">' + response.message + '</div>'
-                    );
+                    } else {
+                        alert("Sign up failed!");
+                    }
+                } catch (error) {
+                    alert("Error occurred while signing up");
                 }
             },
             error: function () {
-                $('#signupResponse').html('<p style="color:red;">Something went wrong. Try again.</p>');
+                alert("Error occurred while submitting form");
             }
         });
     });
-
 
     // ========== Sell Car ==========
     $('#sell-car-form').on('submit', function (e) {
         e.preventDefault();
         const form = this;
+        const formData = new FormData(form);
+        const queryString = new URLSearchParams(formData).toString();
+
         $.ajax({
-            type: 'POST',
-            url: '../php files/sell_car.php',
-            data: new FormData(form),
-            processData: false,
-            contentType: false,
-            success: function (response) {
-                $('#sellCarResponse').html('<div class="form-response">' + response + '</div>');
+            type: 'GET',
+            url: '../php files/sell_car.php?' + queryString,
+            success: function () {
+                alert("Thank you for submiting form, will get back to you soon!");
             },
             error: function () {
-                $('#sellCarResponse').html('<p style="color:red;">Something went wrong. Try again.</p>');
+                alert("Error occurred while submitting form");
             }
         });
     });
@@ -89,15 +84,18 @@ $(document).ready(function () {
     // ========== Rent Car ==========
     $('#rent-car-form').on('submit', function (e) {
         e.preventDefault();
+        const form = this;
+        const formData = new FormData(form);
+        const queryString = new URLSearchParams(formData).toString();
+
         $.ajax({
-            type: 'POST',
-            url: '../php files/rent_car.php',
-            data: $(this).serialize(),
-            success: function (response) {
-                $('#rentCarResponse').html('<div class="form-response">' + response + '</div>');
+            type: 'GET',
+            url: '../php files/rent_car.php?' + queryString,
+            success: function () {
+                alert("Car rental request sent!");
             },
             error: function () {
-                $('#rentCarResponse').html('<p style="color:red;">Something went wrong. Try again.</p>');
+                alert("Error occurred while submitting form");
             }
         });
     });
@@ -105,15 +103,18 @@ $(document).ready(function () {
     // ========== Contact Us ==========
     $('#contact-form').on('submit', function (e) {
         e.preventDefault();
+        const form = this;
+        const formData = new FormData(form);
+        const queryString = new URLSearchParams(formData).toString();
+
         $.ajax({
-            type: 'POST',
-            url: 'contact_us.php',
-            data: $(this).serialize(),
-            success: function (response) {
-                $('#contactResponse').html('<div class="form-response">' + response + '</div>');
+            type: 'GET',
+            url: 'contact_us.php?' + queryString,
+            success: function () {
+                alert("Message sent successfully!");
             },
             error: function () {
-                $('#contactResponse').html('<p class="form-response" style="color:red;">Something went wrong. Try again.</p>');
+                alert("Error occurred while submitting form");
             }
         });
     });
@@ -122,17 +123,55 @@ $(document).ready(function () {
     $('#checkout-form').on('submit', function (e) {
         e.preventDefault();
         const form = this;
+        const formData = new FormData(form);
+        const queryString = new URLSearchParams(formData).toString();
+
         $.ajax({
-            type: 'POST',
-            url: '../php files/checkout.php',
-            data: new FormData(form),
-            processData: false,
-            contentType: false,
-            success: function (response) {
-                $('#checkoutResponse').html('<div class="form-response">' + response + '</div>');
+            type: 'GET',
+            url: '../php files/checkout.php?' + queryString,
+            success: function () {
+                alert("Thank you for your purchase!");
             },
             error: function () {
-                $('#checkoutResponse').html('<p style="color:red;">Something went wrong. Try again.</p>');
+                alert("Error occurred while submitting form");
+            }
+        });
+    });
+
+    // ========== Test Drive Booking ==========
+    $('#testDriveForm').on('submit', function (e) {
+        e.preventDefault();
+        const form = this;
+        const formData = new FormData(form);
+        const queryString = new URLSearchParams(formData).toString();
+
+        $.ajax({
+            type: 'GET',
+            url: '../php files/book_test_drive.php?' + queryString,
+            success: function () {
+                alert("Test drive booked successfully!");
+            },
+            error: function () {
+                alert("Error occurred while submitting form");
+            }
+        });
+    });
+
+    // ========== Submit Review ==========
+    $('#review-form').on('submit', function (e) {
+        e.preventDefault();
+        const form = this;
+        const formData = new FormData(form);
+        const queryString = new URLSearchParams(formData).toString();
+
+        $.ajax({
+            type: 'GET',
+            url: '../php files/submit_review.php?' + queryString,
+            success: function () {
+                alert("Review submitted successfully!");
+            },
+            error: function () {
+                alert("Error occurred while submitting form");
             }
         });
     });
@@ -141,42 +180,6 @@ $(document).ready(function () {
     $(".star").on("click", function () {
         $(".star").removeClass("selected");
         $(this).prevAll().addBack().addClass("selected");
-    });
-
-    // ========== Test Drive Booking ==========
-    $('#testDriveForm').on('submit', function (e) {
-        e.preventDefault();
-        $.ajax({
-            type: 'POST',
-            url: '../php files/book_test_drive.php',
-            data: $(this).serialize(),
-            success: function (response) {
-                $('#responseMessage').html('<div class="form-response">' + response + '</div>');
-            },
-            error: function () {
-                $('#responseMessage').html('<p style="color:red;">Something went wrong. Try again.</p>');
-            }
-        });
-    });
-
-    $('#review-form').on('submit', function (e) {
-        e.preventDefault();
-        $.ajax({
-            type: 'POST',
-            url: '../php files/submit_review.php',
-            data: {
-                user_id: user_id,
-                reviewText: reviewText,
-                rating: rating
-            },
-            success: function (response) {
-                $('#reviewResponse').html('<p style="color:green;">' + response + '</p>');
-                $('#review-form')[0].reset();
-            },
-            error: function () {
-                $('#reviewResponse').html('<p style="color:red;">Something went wrong. Try again.</p>');
-            }
-        });
     });
 
 });

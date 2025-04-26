@@ -7,6 +7,7 @@
     <title>Customer Reviews - Your Car Dealership</title>
     <link rel="stylesheet" href="../css files/reviews.css"> <!-- Link to external CSS -->
     <link rel="shorcut icon" href="../images/MainLogo.jpg">
+    <script src="../js files/form-handler.js"></script>
     <script>
         function toggleMenu() {
             document.querySelector('.mobile-menu').classList.toggle('active');
@@ -109,6 +110,8 @@
                         <option value="4">★★★★☆ (4)</option>
                         <option value="5">★★★★★ (5)</option>
                     </select>
+                    <br>
+                    <br>
                     <input type="hidden" name="user_id" id="userIdInput">
                     <button type="submit">Submit Review</button>
                     <div id="reviewResponse"></div>

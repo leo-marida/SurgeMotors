@@ -1,7 +1,7 @@
 window.addEventListener('DOMContentLoaded', () => {
 
     document.getElementById('signOutBtn')?.addEventListener('click', function () {
-        localStorage.removeItem('username');
+        localStorage.removeItem('user_id');
         localStorage.clear();
     
         window.location.href = 'index.html';
@@ -9,11 +9,12 @@ window.addEventListener('DOMContentLoaded', () => {
 
     
     document.getElementById('signOutBtn2')?.addEventListener('click', function () {
-        localStorage.removeItem('username');
+        localStorage.removeItem('user_id');
         localStorage.clear();
     
         window.location.href = 'index.html';
     });
+    
 });
 
 

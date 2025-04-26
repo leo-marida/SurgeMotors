@@ -1,18 +1,20 @@
 document.addEventListener("DOMContentLoaded", function () {
     
     document.getElementById('signOutBtn')?.addEventListener('click', function () {
-        localStorage.removeItem('username');
+        localStorage.removeItem('user_id');
         localStorage.clear();
     
         window.location.href = 'index.html';
     });
 
+    
     document.getElementById('signOutBtn2')?.addEventListener('click', function () {
-        localStorage.removeItem('username');
+        localStorage.removeItem('user_id');
         localStorage.clear();
     
         window.location.href = 'index.html';
     });
+    
     
     const teamMembers = [
         { name: "Leonard Marida", position: "CEO", image: "../images/Leonard.jpg" },
@@ -28,7 +30,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
         memberDiv.innerHTML = `
             <img src="${member.image}" alt="${member.name}">
-            <h3>${member.name}</h3>
+            <h3 style="color:black">${member.name}</h3>
             <p>${member.position}</p>
         `;
 
