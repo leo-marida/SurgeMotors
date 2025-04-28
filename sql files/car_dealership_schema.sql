@@ -74,7 +74,7 @@ CREATE TABLE rented_cars (
     rent_end_date DATE NOT NULL,
     rented_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     FOREIGN KEY (car_id) REFERENCES cars(id),
-    FOREIGN KEY (rented_to_user_id) REFERENCES users(id),
+    FOREIGN KEY (user_id) REFERENCES users(id),
     UNIQUE KEY (car_id, rent_start_date, rent_end_date)
 );
 
