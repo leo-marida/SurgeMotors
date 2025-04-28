@@ -1,8 +1,6 @@
 <?php
 require_once 'connection.php';
 
-header('Content-Type: application/json');
-
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $user_id = $_POST['user_id'];
     $subject = htmlspecialchars(trim($_POST['subject']));

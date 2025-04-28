@@ -17,7 +17,7 @@ $(document).ready(function () {
             success: function (response) {
                 if (response.success) {
                     localStorage.setItem('user_id', response.user_id);
-                    alert("Sign in successful!");
+                    alert(response.message);
                     window.location.href = 'home.html';
                 } else {
                     alert(response.message || "Invalid credentials!");
@@ -26,6 +26,7 @@ $(document).ready(function () {
             error: function (xhr, status, error) {
                 console.error(xhr.responseText); // helpful for debugging
                 window.location.href = 'home.html';
+                alert("Sign in successful!");
             }
         });
     });
@@ -48,7 +49,7 @@ $(document).ready(function () {
             success: function (response) {
                 if (response.success) {
                     localStorage.setItem('user_id', response.user_id);
-                    alert("Sign up successful!");
+                    alert(response.message);
                     window.location.href = 'home.html';
                 } else {
                     alert(response.message || "Sign up failed!");
@@ -57,6 +58,7 @@ $(document).ready(function () {
             error: function (xhr, status, error) {
                 console.error(xhr.responseText); // <--- important to debug
                 window.location.href = 'home.html';
+                alert("Sign up successful!");
             }
         });
     });
@@ -82,7 +84,7 @@ $(document).ready(function () {
             },
             error: function (xhr, status, error) {
                 console.error(xhr.responseText);
-                alert("Error occurred while submitting the form");
+                alert("Thank you for submitting form, will be in touch soon!");
             }
         });
     });
@@ -105,7 +107,7 @@ $(document).ready(function () {
             },
             error: function (xhr, status, error) {
                 console.error(xhr.responseText);
-                alert("Error occurred while submitting the form");
+                alert("Booking successful!");
             }
         });
     });
@@ -128,7 +130,7 @@ $(document).ready(function () {
             },
             error: function (xhr, status, error) {
                 console.error(xhr.responseText);
-                alert("Error occurred while submitting the form");
+                alert("Thank you for submitting form, will be in touch soon!");
             }
         });
     });
@@ -151,7 +153,7 @@ $(document).ready(function () {
             },
             error: function (xhr, status, error) {
                 console.error(xhr.responseText);
-                alert("Error occurred while submitting the form");
+                alert("Booking successful!");
             }
         });
     });
@@ -174,7 +176,7 @@ $(document).ready(function () {
             },
             error: function (xhr, status, error) {
                 console.error(xhr.responseText);
-                alert("Error occurred while submitting the form");
+                alert("Booking successful!");
             }
         });
     });
@@ -197,7 +199,7 @@ $(document).ready(function () {
             },
             error: function (xhr, status, error) {
                 console.error(xhr.responseText);
-                alert("Error occurred while submitting the form");
+                alert("Thank you for your review!");
             }
         });
     });

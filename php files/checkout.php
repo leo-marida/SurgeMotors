@@ -10,7 +10,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $cvv = htmlspecialchars(trim($_POST['cvv']));
     $car_name = trim($_POST['car_name']);
 
-    if (empty($user_id) || empty($card_number) || empty($expiry_date) || empty($cvv) || empty($car_name)) {
+    if (empty($card_number) || empty($expiry_date) || empty($cvv) || empty($car_name)) {
         echo json_encode(["message" => "All fields are required."]);
         exit;
     }

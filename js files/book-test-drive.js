@@ -3,18 +3,18 @@ window.addEventListener('DOMContentLoaded', () => {
     document.getElementById('signOutBtn')?.addEventListener('click', function () {
         localStorage.removeItem('user_id');
         localStorage.clear();
-    
+
         window.location.href = 'index.html';
     });
 
-    
+
     document.getElementById('signOutBtn2')?.addEventListener('click', function () {
         localStorage.removeItem('user_id');
         localStorage.clear();
-    
+
         window.location.href = 'index.html';
     });
-    
+
 
 
 
@@ -30,15 +30,15 @@ window.addEventListener('DOMContentLoaded', () => {
     document.getElementById('hiddenCarName').value = name;
     document.getElementById('hiddenCarYear').value = year;
 
-        // Populate hidden fields for backend form submission
-        document.getElementById('hiddenCarName').value = name;
-        document.getElementById('hiddenCarYear').value = year;
-    
-        // Populate user ID from localStorage
-        const userId = localStorage.getItem('user_id');
-        if (userId) {
-            document.getElementById('userIdInput').value = userId;
-        }
+    // Populate hidden fields for backend form submission
+    document.getElementById('hiddenCarName').value = name;
+    document.getElementById('hiddenCarYear').value = year;
+
+    // Populate user ID from localStorage
+    const userId = localStorage.getItem('user_id');
+    if (userId) {
+        document.getElementById('userIdInput').value = userId;
+    }
 });
 
 function toggleMenu() {
