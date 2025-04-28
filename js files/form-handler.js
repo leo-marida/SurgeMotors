@@ -25,7 +25,6 @@ $(document).ready(function () {
             },
             error: function (xhr, status, error) {
                 console.error(xhr.responseText); // helpful for debugging
-                alert("Error occurred while signing in");
                 window.location.href = 'home.html';
             }
         });
@@ -57,7 +56,6 @@ $(document).ready(function () {
             },
             error: function (xhr, status, error) {
                 console.error(xhr.responseText); // <--- important to debug
-                alert("Error occurred while signing up");
                 window.location.href = 'home.html';
             }
         });
