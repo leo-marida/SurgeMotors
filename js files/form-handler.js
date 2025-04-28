@@ -3,64 +3,65 @@ $(document).ready(function () {
     // ========== Sign In ==========
     $('#signin-form').on('submit', function (e) {
         e.preventDefault();
+
         const form = this;
         const formData = new FormData(form);
-        const queryString = new URLSearchParams(formData).toString();
 
         $.ajax({
-            type: 'GET',
-            url: '../php files/signin.php?' + queryString,
+            type: 'POST',
+            url: '/your_project/php files/signin.php', // <-- Update this URL to match your project name
+            data: formData,
+            processData: false,
+            contentType: false,
+            dataType: 'json', // expecting JSON from signin.php
             success: function (response) {
-                try {
-                    const jsonResponse = JSON.parse(response);
-
-                    if (jsonResponse.success) {
-                        localStorage.setItem('user_id', jsonResponse.user_id);
-                        alert("Sign in successful!");
-                        window.location.href = 'home.html';
-                    } else {
-                        alert("Invalid credentials!");
-                    }
-                } catch (error) {
-                    alert("Error occurred while signing in");
+                if (response.success) {
+                    localStorage.setItem('user_id', response.user_id);
+                    alert("Sign in successful!");
+                    window.location.href = 'home.html';
+                } else {
+                    alert(response.message || "Invalid credentials!");
                 }
             },
-            error: function () {
-                alert("Error occurred while submitting form");
+            error: function (xhr, status, error) {
+                console.error(xhr.responseText); // helpful for debugging
+                alert("Error occurred while signing in");
             }
         });
     });
 
-    // ========== Sign Up ==========
+
+
     $('#signup-form').on('submit', function (e) {
         e.preventDefault();
+
         const form = this;
         const formData = new FormData(form);
-        const queryString = new URLSearchParams(formData).toString();
 
         $.ajax({
-            type: 'GET',
-            url: '../php files/signup.php?' + queryString,
+            type: 'POST',
+            url: '/your_project/php files/signup.php', // <-- FIX THE URL if necessary
+            data: formData,
+            processData: false,
+            contentType: false,
+            dataType: 'json',
             success: function (response) {
-                try {
-                    const jsonResponse = JSON.parse(response);
-
-                    if (jsonResponse.success) {
-                        localStorage.setItem('user_id', jsonResponse.user_id);
-                        alert("Sign up successful!");
-                        window.location.href = 'home.html';
-                    } else {
-                        alert("Sign up failed!");
-                    }
-                } catch (error) {
-                    alert("Error occurred while signing up");
+                if (response.success) {
+                    localStorage.setItem('user_id', response.user_id);
+                    alert("Sign up successful!");
+                    window.location.href = 'home.html';
+                } else {
+                    alert(response.message || "Sign up failed!");
                 }
             },
-            error: function () {
-                alert("Error occurred while submitting form");
+            error: function (xhr, status, error) {
+                console.error(xhr.responseText); // <--- important to debug
+                alert("Error occurred while signing up");
             }
         });
     });
+
+
 
     // ========== Sell Car ==========
     $('#sell-car-form').on('submit', function (e) {
