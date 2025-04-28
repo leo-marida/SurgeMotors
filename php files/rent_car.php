@@ -1,17 +1,18 @@
 <?php
 require_once 'connection.php';
 
-if ($_SERVER['REQUEST_METHOD'] === 'GET') {
-    $user_id = $_GET['user_id'];
-    $car_name = $_GET['car_name'];
-    $num_of_days = $_GET['rental-days'];
-    $pickup_date = $_GET['pickup-date'];
-    $return_date = $_GET['return-date'];
+header('Content-Type: application/json');
 
-    echo "values received";
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    $user_id = $_POST['user_id'];
+    $car_name = trim($_POST['car_name']);
+    $num_of_days = $_POST['rental-days'];
+    $pickup_date = $_POST['pickup-date'];
+    $return_date = $_POST['return-date'];
 
     if (empty($user_id) || empty($pickup_date) || empty($return_date) || empty($car_name) || empty($num_of_days)) {
-        echo "All fields are required."; exit;
+        echo json_encode(["message" => "All fields are required."]);
+        exit;
     }
 
     // Get car ID
@@ -22,14 +23,24 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET') {
     $stmt->fetch();
     $stmt->close();
 
-    echo "car_id found!";
+    if (!$car_id) {
+        echo json_encode(["message" => "Car not found."]);
+        exit;
+    }
+
+    // Insert into rented_cars
     $stmt = $conn->prepare("INSERT INTO rented_cars (car_id, user_id, num_of_days, rent_start_date, rent_end_date) VALUES (?, ?, ?, ?, ?)");
     $stmt->bind_param("iisss", $car_id, $user_id, $num_of_days, $pickup_date, $return_date);
 
     if ($stmt->execute()) {
-        echo "Car rental submitted successfully!";
+        echo json_encode(["message" => "Car rental submitted successfully!"]);
     } else {
-        echo "Error: " . $stmt->error;
+        echo json_encode(["message" => "Error: " . $stmt->error]);
     }
+
+    $stmt->close();
+    $conn->close();
+} else {
+    echo json_encode(["message" => "Invalid request."]);
 }
 ?>

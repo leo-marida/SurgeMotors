@@ -1,10 +1,10 @@
 <?php
 require_once 'connection.php';
 
-if ($_SERVER['REQUEST_METHOD'] === 'GET') {
-    $user_id = $_GET['user_id'];
-    $comment = trim($_GET['reviewText']);
-    $rating = $_GET['rating'];
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    $user_id = $_POST['user_id'];
+    $comment = trim($_POST['reviewText']);
+    $rating = $_POST['rating'];
 
     if (empty($comment) || empty($rating) || empty($user_id)) {
         echo "All fields are required.";
@@ -21,9 +21,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET') {
     $stmt->bind_param("ssi",$user_id, $comment, $rating);
 
     if ($stmt->execute()) {
-        echo "Review submitted successfully!";
+        echo json_encode(["message" => "Review submitted successfully!" . $stmt->error]);
     } else {
-        echo "Error: " . $stmt->error;
+        echo json_encode(["message" => "Error: " . $stmt->error]);
     }
 }
 ?>

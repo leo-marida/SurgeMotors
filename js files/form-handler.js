@@ -9,7 +9,7 @@ $(document).ready(function () {
 
         $.ajax({
             type: 'POST',
-            url: '/your_project/php files/signin.php', // <-- Update this URL to match your project name
+            url: 'http://localhost/SurgeMotors/php%20files/signin.php', // <-- Update this URL to match your project name
             data: formData,
             processData: false,
             contentType: false,
@@ -26,6 +26,7 @@ $(document).ready(function () {
             error: function (xhr, status, error) {
                 console.error(xhr.responseText); // helpful for debugging
                 alert("Error occurred while signing in");
+                window.location.href = 'home.html';
             }
         });
     });
@@ -40,7 +41,7 @@ $(document).ready(function () {
 
         $.ajax({
             type: 'POST',
-            url: '/your_project/php files/signup.php', // <-- FIX THE URL if necessary
+            url: 'http://localhost/SurgeMotors/php%20files/signup.php', // <-- FIX THE URL if necessary
             data: formData,
             processData: false,
             contentType: false,
@@ -57,9 +58,11 @@ $(document).ready(function () {
             error: function (xhr, status, error) {
                 console.error(xhr.responseText); // <--- important to debug
                 alert("Error occurred while signing up");
+                window.location.href = 'home.html';
             }
         });
     });
+
 
 
 
@@ -68,16 +71,20 @@ $(document).ready(function () {
         e.preventDefault();
         const form = this;
         const formData = new FormData(form);
-        const queryString = new URLSearchParams(formData).toString();
 
         $.ajax({
-            type: 'GET',
-            url: '../php files/sell_car.php?' + queryString,
-            success: function () {
-                alert("Thank you for submiting form, will get back to you soon!");
+            type: 'POST',
+            url: 'http://localhost/SurgeMotors/php%20files/sell_car.php',
+            data: formData,
+            processData: false,
+            contentType: false,
+            dataType: 'json',
+            success: function (response) {
+                alert(response.message);
             },
-            error: function () {
-                alert("Error occurred while submitting form");
+            error: function (xhr, status, error) {
+                console.error(xhr.responseText);
+                alert("Error occurred while submitting the form");
             }
         });
     });
@@ -87,16 +94,20 @@ $(document).ready(function () {
         e.preventDefault();
         const form = this;
         const formData = new FormData(form);
-        const queryString = new URLSearchParams(formData).toString();
 
         $.ajax({
-            type: 'GET',
-            url: '../php files/rent_car.php?' + queryString,
-            success: function () {
-                alert("Car rental request sent!");
+            type: 'POST',
+            url: 'http://localhost/SurgeMotors/php%20files/rent_car.php',
+            data: formData,
+            processData: false,
+            contentType: false,
+            dataType: 'json',
+            success: function (response) {
+                alert(response.message);
             },
-            error: function () {
-                alert("Error occurred while submitting form");
+            error: function (xhr, status, error) {
+                console.error(xhr.responseText);
+                alert("Error occurred while submitting the form");
             }
         });
     });
@@ -106,16 +117,20 @@ $(document).ready(function () {
         e.preventDefault();
         const form = this;
         const formData = new FormData(form);
-        const queryString = new URLSearchParams(formData).toString();
 
         $.ajax({
-            type: 'GET',
-            url: 'contact_us.php?' + queryString,
-            success: function () {
-                alert("Message sent successfully!");
+            type: 'POST',
+            url: 'http://localhost/SurgeMotors/php%20files/contact_us.php',
+            data: formData,
+            processData: false,
+            contentType: false,
+            dataType: 'json',
+            success: function (response) {
+                alert(response.message);
             },
-            error: function () {
-                alert("Error occurred while submitting form");
+            error: function (xhr, status, error) {
+                console.error(xhr.responseText);
+                alert("Error occurred while submitting the form");
             }
         });
     });
@@ -125,16 +140,20 @@ $(document).ready(function () {
         e.preventDefault();
         const form = this;
         const formData = new FormData(form);
-        const queryString = new URLSearchParams(formData).toString();
 
         $.ajax({
-            type: 'GET',
-            url: '../php files/checkout.php?' + queryString,
-            success: function () {
-                alert("Thank you for your purchase!");
+            type: 'POST',
+            url: 'http://localhost/SurgeMotors/php%20files/checkout.php',
+            data: formData,
+            processData: false,
+            contentType: false,
+            dataType: 'json',
+            success: function (response) {
+                alert(response.message);
             },
-            error: function () {
-                alert("Error occurred while submitting form");
+            error: function (xhr, status, error) {
+                console.error(xhr.responseText);
+                alert("Error occurred while submitting the form");
             }
         });
     });
@@ -144,16 +163,20 @@ $(document).ready(function () {
         e.preventDefault();
         const form = this;
         const formData = new FormData(form);
-        const queryString = new URLSearchParams(formData).toString();
 
         $.ajax({
-            type: 'GET',
-            url: '../php files/book_test_drive.php?' + queryString,
-            success: function () {
-                alert("Test drive booked successfully!");
+            type: 'POST',
+            url: 'http://localhost/SurgeMotors/php%20files/book_test_drive.php',
+            data: formData,
+            processData: false,
+            contentType: false,
+            dataType: 'json',
+            success: function (response) {
+                alert(response.message);
             },
-            error: function () {
-                alert("Error occurred while submitting form");
+            error: function (xhr, status, error) {
+                console.error(xhr.responseText);
+                alert("Error occurred while submitting the form");
             }
         });
     });
@@ -163,16 +186,20 @@ $(document).ready(function () {
         e.preventDefault();
         const form = this;
         const formData = new FormData(form);
-        const queryString = new URLSearchParams(formData).toString();
 
         $.ajax({
-            type: 'GET',
-            url: '../php files/submit_review.php?' + queryString,
-            success: function () {
-                alert("Review submitted successfully!");
+            type: 'POST',
+            url: 'http://localhost/SurgeMotors/php%20files/submit_review.php',
+            data: formData,
+            processData: false,
+            contentType: false,
+            dataType: 'json',
+            success: function (response) {
+                alert(response.message);
             },
-            error: function () {
-                alert("Error occurred while submitting form");
+            error: function (xhr, status, error) {
+                console.error(xhr.responseText);
+                alert("Error occurred while submitting the form");
             }
         });
     });
@@ -182,5 +209,6 @@ $(document).ready(function () {
         $(".star").removeClass("selected");
         $(this).prevAll().addBack().addClass("selected");
     });
+
 
 });

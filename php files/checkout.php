@@ -1,14 +1,20 @@
 <?php
 require_once 'connection.php';
 
-if ($_SERVER['REQUEST_METHOD'] === 'GET') {
-    $user_id = $_GET['user_id'];
-    $card_number = preg_replace('/\D/', '', $_GET['card-number']);
-    $expiry_date = $_GET['expiry-date'];
-    $cvv = htmlspecialchars(trim($_GET['cvv']));
-    $car_name = trim($_GET['car_name']);
+header('Content-Type: application/json');
 
-    echo"values received\n";
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    $user_id = $_POST['user_id'];
+    $card_number = preg_replace('/\D/', '', $_POST['card-number']);
+    $expiry_date = $_POST['expiry-date'];
+    $cvv = htmlspecialchars(trim($_POST['cvv']));
+    $car_name = trim($_POST['car_name']);
+
+    if (empty($user_id) || empty($card_number) || empty($expiry_date) || empty($cvv) || empty($car_name)) {
+        echo json_encode(["message" => "All fields are required."]);
+        exit;
+    }
+
     // Get car ID
     $stmt = $conn->prepare("SELECT id FROM cars WHERE model = ?");
     $stmt->bind_param("s", $car_name);
@@ -17,9 +23,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET') {
     $stmt->fetch();
     $stmt->close();
 
-    echo"car_id found!\n";
-    if (empty($user_id) || empty($card_number) || empty($expiry_date) || empty($cvv)) {
-        echo "All fields are required.";
+    if (!$car_id) {
+        echo json_encode(["message" => "Car not found."]);
         exit;
     }
 
@@ -31,12 +36,14 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET') {
     $stmt->bind_param("iisss", $car_id, $user_id, $card_last4, $expiry_date, $cvv);
 
     if ($stmt->execute()) {
-        echo "Checkout completed successfully!";
+        echo json_encode(["message" => "Checkout completed successfully!"]);
     } else {
-        echo "Error: " . $stmt->error;
+        echo json_encode(["message" => "Error: " . $stmt->error]);
     }
 
     $stmt->close();
     $conn->close();
+} else {
+    echo json_encode(["message" => "Invalid request."]);
 }
 ?>

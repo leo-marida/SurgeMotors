@@ -55,7 +55,7 @@ CREATE TABLE featured_cars (
 CREATE TABLE sold_cars (
     id INT AUTO_INCREMENT PRIMARY KEY,
     car_id INT,
-    user_id INT,
+    user_id INT NOT NULL,
     card_number_last4 VARCHAR(4),
     expiry_date VARCHAR(7),
     cvv VARCHAR(4),

@@ -1,20 +1,19 @@
 <?php
 require_once 'connection.php';
 
-if ($_SERVER['REQUEST_METHOD'] === 'GET') {
-    $user_id = $_GET['user_id'];
-    $make = trim($_GET['make']);
-    $model = trim($_GET['model']);
-    $year = $_GET['year'];
-    $mileage = $_GET['mileage'];
-    $expected_price = $_GET['expected_price'];
-    $car_condition = $_GET['car_condition'];
-    $add_description = isset($_GET['add_description']) ? trim($_GET['add_description']) : null;
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    $user_id = $_POST['user_id'];
+    $make = trim($_POST['make']);
+    $model = trim($_POST['model']);
+    $year = $_POST['year'];
+    $mileage = $_POST['mileage'];
+    $expected_price = $_POST['expected_price'];
+    $car_condition = $_POST['car_condition'];
+    $add_description = isset($_POST['add_description']) ? trim($_POST['add_description']) : null;
     if ($add_description === '') {
         $add_description = null;
     }
 
-    echo "all values received \n";
     // Basic validations
     if (
         empty($user_id) || empty($make) || empty($model) || empty($year) || empty($mileage) ||
@@ -71,9 +70,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET') {
     $stmt->bind_param("issiidsss", $user_id, $make, $model, $year, $mileage, $expected_price, $car_condition, $add_description, $imagesJson);
 
     if ($stmt->execute()) {
-        echo "Thank you for submitting this form, we will get back to you soon.";
+        echo json_encode(["message" => "Thank you for submitting this form, we will get back to you soon."]);
     } else {
-        echo "Error: " . $stmt->error;
+        echo json_encode(["message" => "Error: " . $stmt->error]);
     }
 
     $stmt->close();

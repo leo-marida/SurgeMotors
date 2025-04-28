@@ -1,11 +1,14 @@
 <?php
-require_once 'connection.php'; // assumes $conn is set
+require_once 'connection.php'; // Assumes $conn is set
 
-if ($_SERVER['REQUEST_METHOD'] === 'GET') {
-    $user_id = intval($_GET['user_id']);
-    $car_name = trim($_GET['car_name']);
-    $booking_date = $_GET['date'];
-    $booking_time = $_GET['time'];
+// Set the response header to JSON
+header('Content-Type: application/json');
+
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    $user_id = intval($_POST['user_id']);
+    $car_name = trim($_POST['car_name']);
+    $booking_date = $_POST['date'];
+    $booking_time = $_POST['time'];
 
     // 1. Find the car_id
     $stmt = $conn->prepare("SELECT id FROM cars WHERE model = ?");
@@ -16,24 +19,23 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET') {
     $stmt->close();
 
     if (!$car_id) {
-        echo "Car not found.";
+        echo json_encode(["message" => "Car not found."]);
         exit();
     }
-    echo "Car Found!\n";
 
     // 2. Insert the booking
     $stmt = $conn->prepare("INSERT INTO test_drive_bookings (user_id, car_id, booking_date, booking_time) VALUES (?, ?, ?, ?)");
     $stmt->bind_param("iiss", $user_id, $car_id, $booking_date, $booking_time);
 
     if ($stmt->execute()) {
-        echo "Test drive booked successfully.";
+        echo json_encode(["message" => "Test drive booked successfully."]);
     } else {
-        echo "Error booking test drive";
+        echo json_encode(["message" => "Error booking test drive."]);
     }
 
     $stmt->close();
     $conn->close();
 } else {
-    echo "Invalid request";
+    echo json_encode(["message" => "Invalid request."]);
 }
 ?>
